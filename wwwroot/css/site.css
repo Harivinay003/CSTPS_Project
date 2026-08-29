@@ -1,0 +1,365 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+/*body {
+  margin-bottom: 60px;
+}*/
+
+.nav-pills .nav-link {
+    color: #000;
+    border-radius: 0.1rem;
+}
+
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        color: #fff !important;
+        background-color: black;
+    }
+
+.selectionbox .navbar {
+    border: solid rgba(0,0,0,0.3) 1px;
+    border-radius: 3px;
+    padding: 3px;
+    display: block;
+}
+
+.selectionbox li:last-child a {
+    border-bottom: 0px;
+}
+
+.selectionbox li a label {
+    margin: 0px;
+    padding-left: 5px;
+}
+
+.selectionbox .nav-link {
+    cursor: pointer;
+    border-bottom: solid rgba(0,0,0,0.3) 1px;
+    padding-left: 5px;
+    color: rgba(0,0,0,0.7) !important;
+    background: white;
+}
+
+    .selectionbox .nav-link.active {
+        background-color: rgba(0,0,250,0.1);
+        color: rgba(0,0,0,0.7) !important;
+        border-left: solid 3px #db3833;
+        font-weight: 600;
+    }
+
+.selectionbox select {
+    overflow-y: auto;
+}
+
+.selectionbox option {
+    height: 35px;
+    border-bottom: solid rgba(0,0,0,0.3) 1px;
+    padding-left: 0px;
+    padding-top: 8px;
+}
+
+    .selectionbox option:last-child {
+        border-bottom: 0px;
+    }
+
+/*    .sidenavbar .navbar {
+        top: 0;
+        height: 98%;
+        overflow-y: auto;
+        align-items: start;
+    }*/
+.sidenavbar {
+    position: absolute;
+    top: auto;
+    width: 280px;
+    height: 80%;
+    /*background: white;*/
+    border-top-right-radius: 5px;
+    box-shadow: 3px 5px 15px #9e9e9e;
+    z-index: 100;
+    transition: all 0.5s ease;
+}
+
+    .sidenavbar .header {
+        background-color: #dedede;
+        border-top: solid 5px #008CE3;
+        border-bottom: solid rgba(0,0,0,0.3) 1px;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        /*border-top: solid red 4px;*/
+        /*position: sticky;*/
+
+        margin: 0px 0px 5px 0px;
+        overflow: hidden;
+        transition: all 0.5s ease;
+        padding-left: 10px;
+    }
+
+    .sidenavbar .header span {
+        position: relative;
+        font-size: 25px;
+        top: 10px;
+        float: right;
+        padding-right: 5px;
+        cursor: pointer;
+    }
+
+
+.sidenavbar .navbar {
+    top: 0;
+    height: 90%;
+    overflow-y: auto;
+    align-items: start;
+    padding: 0px;
+}
+
+.sidenavbar ul:first-child {
+    border-top: solid rgba(0,0,0,0.3) 1px;
+    border-radius: 3px;
+}
+
+.sidenavbar .nav-link {
+    cursor: pointer;
+    border-bottom: solid rgba(0,0,0,0.3) 1px;
+    padding-left: 5px;
+    color: rgba(0,0,0,0.6) !important;
+}
+    .sidenavbar .nav-link.active {
+        background-color: white;
+        color: rgba(0,0,0,0.7) !important;
+        border-left: solid 5px #db3833;
+        border-radius: 3px;
+        padding-left: 5px;
+    }
+
+.middle {
+    width: calc(100vw - 320px);
+    transform: translateX(300px);
+    margin-right: 5px;
+}
+
+.parent.open {
+    /*background: var(--c3);
+        color: white;*/
+    background-color: rgba(250,0,0,0.2);
+    color: rgba(0,0,0,0.9) !important;
+    border-left: solid 3px #db3833;
+    font-weight: 600;
+    padding-left: 8px;
+}
+
+.parent:hover {
+    /*background: var(--c3);
+        opacity: 0.8;
+        color: white;*/
+    background-color: rgba(250,0,0,0.2);
+    color: rgba(0,0,0,0.9) !important;
+    border-left: solid 3px #db3833;
+    font-weight: 600;
+    padding-left: 8px;
+}
+
+.level-2 {
+    color: var(--c4);
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.level-3 {
+    color: var(--c4);
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.level-4 {
+    color: var(--c4);
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.parent.open > span > i {
+    transform: rotate(180deg);
+}
+
+.parent > span > i {
+    transition: transform 0.5s ease;
+}
+
+.level-2:hover {
+    background: var(--c5);
+}
+
+.level-2 {
+    transition: all 0.5s ease;
+}
+
+.menu-btn {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*margin-top: 5px;*/
+    /*margin-left: 5px;*/
+    cursor: pointer;
+    transition: all .5s ease;
+    /*border:2px solid black;*/
+}
+
+.menu-btn-burger {
+    width: 18px;
+    height: 3px;
+    border-radius: 4px;
+    background: var(--c2);
+    transition: all 0.5s ease;
+}
+
+    .menu-btn-burger::before,
+    .menu-btn-burger::after {
+        position: absolute;
+        content: '';
+        width: 15px;
+        height: 3px;
+        border-radius: 3px;
+        background: var(--c2);
+        transition: all 0.5s ease;
+    }
+
+    .menu-btn-burger::after {
+        /*left:0;*/
+        margin-top: 5px;
+    }
+
+    .menu-btn-burger::before {
+        /*left: 0;*/
+        margin-top: -5px;
+    }
+
+.menu-btn-burger-right {
+    color: var(--c2);
+    margin-left: -2px;
+    transition: opacity .5s ease;
+}
+
+.menu-btn-burger-left {
+    color: var(--c2);
+    margin-right: -2px;
+    transition: opacity .5s ease;
+    opacity: 0;
+}
+
+.menu-btn.open {
+    transform: translateX(290px);
+}
+
+    .menu-btn.open .menu-btn-burger {
+        /*transform: translateX(-5px);*/
+        /*background: none;*/
+    }
+
+        .menu-btn.open .menu-btn-burger::before {
+            /*transform: rotate(-45deg);
+        width: 15px;
+        margin-top: 0;*/
+            transform: translateX(3px);
+        }
+
+        .menu-btn.open .menu-btn-burger::after {
+            /* transform: rotate(45deg);
+        width: 15px;
+        margin-top: 0;*/
+            transform: translateX(3px);
+        }
+
+    .menu-btn.open .menu-btn-burger-right {
+        opacity: 0;
+    }
+
+    .menu-btn.open .menu-btn-burger-left {
+        opacity: 1;
+    }
+
+/* Analytics page uses .en-middle and menu-left/menu-right helpers — keep them global */
+.en-middle {
+    width: calc(100vw - 280px);
+    margin-left: 0px;
+    transform: translateX(270px);
+    transition: all 0.5s ease;
+    margin-right: 5px;
+}
+
+.menu-left {
+    cursor: pointer;
+    color: rgba(0,0,0,.6);
+    opacity: 1;
+    transition: all 0.5s ease;
+    z-index: 0;
+}
+
+.menu-left.open {
+    opacity: 0;
+}
+
+.menu-right {
+    cursor: pointer;
+    position: absolute;
+    margin-left: 10px;
+    color: rgba(0,0,0,.6);
+    opacity: 1;
+    transition: all 0.5s ease;
+    right: 3px;
+}
+
+.menu-right.open {
+    opacity: 0;
+}
+
+
+.alarm-clickable {
+    cursor: pointer;
+}
+
+    .alarm-clickable:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+
+.trip-clickable {
+    cursor: pointer;
+
+}
+
+    .trip-clickable:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+
+.permit-clickable {
+    cursor: pointer;
+}
+
+    .permit-clickable:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+
+.energy-clickable {
+    cursor: pointer;
+}
+
+    .energy-clickable:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
