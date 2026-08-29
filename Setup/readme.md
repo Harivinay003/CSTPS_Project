@@ -1,4 +1,4 @@
-# VirtualEMS WiX Installer Setup Guide
+# WiX Installer Setup Guide
 
 ## Overview
 
