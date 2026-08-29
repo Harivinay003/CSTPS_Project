@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="VirtualEMS.Setup" Language="1033" Version="1.0.0.0" Manufacturer="VA" UpgradeCode="d1a381fc-db45-4a78-89d4-e9a21ec3abce">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of CSTPS App is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Icon Id="ManagementConsole.ico" SourceFile="$(var.ManagementConsolePublishDir)\Resources\Virtual Reports.ico" />
+		<Feature Id="ProductFeature" Title="CSTPSApp.Setup" Level="1">
+			<ComponentGroupRef Id="ManagementConsoleGroup" />
+			<ComponentGroupRef Id="DataLogServiceGroup" />
+			
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Virtual Automations">
+					<Directory Id="ProductFolder" Name="CSTPS">
+						<Directory Id="ConsoleDir" Name="ManagementConsole" />
+						<Directory Id="LoggingDir" Name="DataLogging" />
+						
+					</Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="DesktopFolder" Name="Desktop" />
+		</Directory>
+	</Fragment>
+</Wix>

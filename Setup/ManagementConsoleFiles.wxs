@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="ConsoleDir">
+            <Component Id="cmp01760B9DC2F152738F297EED00A36BB2" Guid="{0E8B845F-E6F4-462E-B3DE-F15EB1FB8AB3}">
+                <File Id="fil7AC17CED7D721F2DC7814983454B5E8C" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Azure.Core.dll" />
+            </Component>
+            <Component Id="cmpC4FCECAA21A7768582CA23B6C74779EE" Guid="{E39CF051-244C-4096-B00C-33C404EF3019}">
+                <File Id="fil2C2533A9233EE37348B4DF11E9C36E77" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Azure.Identity.dll" />
+            </Component>
+            <Component Id="cmpAD48AC6B32F220D74714AA824C69066E" Guid="{4447DE65-9A8A-439D-A479-E0137AD74E5B}">
+                <File Id="fil555659A50D72DE63E67581B33EC9576E" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\FastMember.dll" />
+            </Component>
+            <Component Id="cmp582BDA75DDAEE838A9D937ACA24FCC90" Guid="{755C3403-4215-4412-8B57-D82A69040F4D}">
+                <File Id="filFE06AC2AD562CAB5D9012CF14FFB20B9" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\ManagementConsole.deps.json" />
+            </Component>
+            <Component Id="cmp65A6F2693966B356564C5FD2CD2FBCFD" Guid="{B3C97A58-2A08-4E8B-A38B-020A6FF9ED32}">
+                <File Id="fil283403B69E6413830CE31D87BA9029C1" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\ManagementConsole.dll" />
+            </Component>
+            <Component Id="cmp8D6F37414EAC28A8BBB556C6475DEFE8" Guid="{5A9A4E9B-EEEB-4622-8529-B11E63A58D42}">
+                <File Id="filC74D696054D4DEB13C8F450B00E01E3E" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\ManagementConsole.dll.config" />
+            </Component>
+            <Component Id="cmp7DF9A1B15BA7CE1F0F5EDDC728F853C8" Guid="{AAAEA893-AA34-4F1F-AE35-330AC321957A}">
+                <File Id="fil784B8AD6573FEFFB1CEADCBB4F5ABEB1" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\ManagementConsole.exe" >
+					<Shortcut Id="DesktopMgmtShortcut"
+			   Directory="DesktopFolder"
+			   Name="Management Console"
+			   Description="CSTPS Management Console"
+			   WorkingDirectory="ManagmentConsoleDir"
+			   Icon="ManagementConsole.ico"
+			   IconIndex="0"
+			   Advertise="yes" />
+				</File>
+				<RegistryValue Root="HKLM" Key="Software\VirtualEMS\ManagementConsole" Name="installed" Type="integer" Value="1" KeyPath="no" />
+            </Component>
+            <Component Id="cmp40C4E5F9F65C84041971E712529CBE6B" Guid="{B84F2568-BA9B-4E1B-8BCA-05C72F8360AC}">
+                <File Id="fil36D8932CDBCDB0DC24017E71E4353D34" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\ManagementConsole.pdb" />
+            </Component>
+            <Component Id="cmpEC0F8104F4998AC9AA5D741B54170E89" Guid="{707D34C7-A0B3-40C2-A8D6-B6602AE31D3F}">
+                <File Id="fil17E2E829F589A89973973B4ED7C937EE" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\ManagementConsole.runtimeconfig.json" />
+            </Component>
+            <Component Id="cmp283F1007F05A44E3B873517BF8E4C2EE" Guid="{18054316-D5F2-4EA5-B7FA-7C8B2F1CAD15}">
+                <File Id="fil25D8033531AD9370C632C0EAF023ABA3" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Bcl.AsyncInterfaces.dll" />
+            </Component>
+            <Component Id="cmp1C6BAC3DE7D1F42748F6739A914FBCA3" Guid="{467ED310-83F6-447C-898C-529FB9B6CE83}">
+                <File Id="fil5E1F9E64F9062B1E8D58776F042AB517" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Data.SqlClient.dll" />
+            </Component>
+            <Component Id="cmpABC1AE77B06B95A64D937FCF3B84FFBF" Guid="{E63C889B-FD08-457B-A4B3-BE3093DE6632}">
+                <File Id="fil347761F8F7E6A121201B4170EA54877A" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpE16347E33D8AE1DBFAEF3F800A1157E9" Guid="{1753CCFF-57B5-4D42-8F66-7541AF2D9E70}">
+                <File Id="fil654B3879269F71326D677C92A4F5F7A4" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.EntityFrameworkCore.dll" />
+            </Component>
+            <Component Id="cmp4C4A5DD537B7CA0014B37BB900E89533" Guid="{CCC4C7A4-D058-4B31-9A5F-D2316006150D}">
+                <File Id="fil1EBED6280291C39AA8BFDA2C026E6305" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.EntityFrameworkCore.Relational.dll" />
+            </Component>
+            <Component Id="cmp6E4BF9C464E7649946265C7DE571FD2E" Guid="{0E336481-3B8B-4BC3-95F1-385FA3FE2010}">
+                <File Id="fil96D643F4728842D4862CFF3E0FA06636" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.EntityFrameworkCore.SqlServer.dll" />
+            </Component>
+            <Component Id="cmp1C19EED995C4A5AAF817AD52CF18AD8C" Guid="{CEE90D00-4926-4874-872F-39642FE588E1}">
+                <File Id="fil8C75FAEC0154D47C8A1BB3288FF1B00F" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Extensions.Caching.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpA52487EC4D36527DD54D2E8F945C751B" Guid="{C527B8B9-EA94-4EAA-91F0-19D4F9FB554E}">
+                <File Id="fil5177A5AC51CDEF85DBC9DD27A26C7344" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Extensions.Caching.Memory.dll" />
+            </Component>
+            <Component Id="cmp9EBB48B782DFAC4541A9DE76FEEDC2F7" Guid="{CA369338-1DB5-4D31-BC75-7EE35BA0C9C4}">
+                <File Id="fil4B73E51F425AB957FF8AA3879612EF41" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Extensions.Configuration.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpDB2A5C8A35D9FE855D368F7CD0B110BE" Guid="{E96B6840-96E5-4A25-B97D-C42E4D2E67F5}">
+                <File Id="fil00AEB941918EF79238F7DB76B692359D" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpCF93258AA291A8DBC5ED8467A2B5629F" Guid="{C9BDA4FD-C203-4BF1-A118-8BFA80C28E9A}">
+                <File Id="filE7ACDCB6BB459CC53F6220EA8E8C9041" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Extensions.DependencyInjection.dll" />
+            </Component>
+            <Component Id="cmpF9953F5CDB4262968463AAB93A025F8A" Guid="{3CC3BBE4-37F5-4121-8C4A-1660AA387A00}">
+                <File Id="fil66203FCA78F85864E7ABA8E096A3ABF1" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Extensions.Logging.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpF814D9F5E53127E6D31A9C7E1C36D77C" Guid="{AD446C4C-7C86-41F5-89A3-9830366DA708}">
+                <File Id="filFE3F1E2F618D2D6CF6927406333853AC" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Extensions.Logging.dll" />
+            </Component>
+            <Component Id="cmp27AAE674AF02AE93EA88EAA6E813767D" Guid="{F6BBF9AE-6880-4931-BDC8-5D7D04930C23}">
+                <File Id="filD31E8D290571D1DF668563F231B7C766" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Extensions.Options.dll" />
+            </Component>
+            <Component Id="cmp181ABEC91A1209B415AB142BAEB1C1F9" Guid="{2AF10874-1E05-4DDF-89C7-0023F46BEEC4}">
+                <File Id="filA2649E3198A6B0EBA0341090B6D35999" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Extensions.Primitives.dll" />
+            </Component>
+            <Component Id="cmp56C250BCF140706157BD195E23FAC76A" Guid="{FF1FBDA5-B3EE-4454-9EDA-0B5240C8F4F9}">
+                <File Id="fil5EC5835DA85C02F4EEC78E260656BF3C" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Identity.Client.dll" />
+            </Component>
+            <Component Id="cmp7EE81F83EA8465C4C7BF97B8A3BACBED" Guid="{78A3441B-10AC-43EC-931A-E961223369CB}">
+                <File Id="filBBB9B1B16586A9B6F9110A8C49B48642" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.Identity.Client.Extensions.Msal.dll" />
+            </Component>
+            <Component Id="cmpADD408E59C27F9C3866101B00489EC25" Guid="{88796FDD-EFDD-4970-B8BA-518F95CFB34C}">
+                <File Id="fil79F461A63D3FB855A9689EFE44CA3518" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.IdentityModel.Abstractions.dll" />
+            </Component>
+            <Component Id="cmp068AB14A6D763A4811B16D123DC9353C" Guid="{E59A346D-DA7E-4C29-B292-87DC7992380A}">
+                <File Id="filAFAECFB4B1C00597246AE54DA84404C1" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.IdentityModel.JsonWebTokens.dll" />
+            </Component>
+            <Component Id="cmp6578B3A5228FCDD9C7DBA44036CDE346" Guid="{879BDB34-7F33-46B3-8275-ABF732C27554}">
+                <File Id="fil7822A89C4D606727C7CD63867BBE85E5" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.IdentityModel.Logging.dll" />
+            </Component>
+            <Component Id="cmpA095C3727CC94B647DCFC29F654664CD" Guid="{AA6CC9FA-B02A-46B7-9EBE-9787E2D1CD74}">
+                <File Id="fil0E51BF08A86AC5E6FD53CE9EBBEF7EB4" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.IdentityModel.Protocols.dll" />
+            </Component>
+            <Component Id="cmp0C5AC2220832D8C8EB5F781290F1E113" Guid="{5EA15E1C-B9AD-40FD-B654-0AA3B1F235E1}">
+                <File Id="filBCF4E587BB9C0574770AFBE4F304528D" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll" />
+            </Component>
+            <Component Id="cmp67B21FC8387ADD54F64AAAE5BFC98A48" Guid="{A8D4F98B-7013-46F7-85F9-881B8BF16E59}">
+                <File Id="filA6676193F656238857E34A28522C7744" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.IdentityModel.Tokens.dll" />
+            </Component>
+            <Component Id="cmpEF681BE675C54A40B92E6A978B61CE23" Guid="{606745A6-175A-4EB7-8672-A391D5B9619E}">
+                <File Id="fil968F3AE83F401FED8EDFBA3D0577DB73" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Microsoft.SqlServer.Server.dll" />
+            </Component>
+            <Component Id="cmp60F0FFFF0B1347693B8D5BB6BA0EE0E3" Guid="{BCA21B06-1CDC-4777-9C43-9C85BE55E39D}">
+                <File Id="filE9CB4C374772AA208662A741F69B0039" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\System.IdentityModel.Tokens.Jwt.dll" />
+            </Component>
+            <Component Id="cmp899BDC2D7D75D8B9F687A1E3431BABE7" Guid="{FA86F43B-4B50-480E-A6B4-97E5CF333CD5}">
+                <File Id="filCCB0AEB1410C23F38798A68E0CB5A9FD" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\System.Memory.Data.dll" />
+            </Component>
+            <Component Id="cmp8235A99C0410F82D9BED0A764E777214" Guid="{9D06965D-231B-4D26-BCC9-7614A1A43520}">
+                <File Id="fil8C543B55543F6DCF4E043F63ED18D2E2" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\System.Runtime.Caching.dll" />
+            </Component>
+            <Component Id="cmp4C5F148C6E1435636C1069540509A029" Guid="{74E983DC-5054-42EB-B256-25C12C9DF054}">
+                <File Id="filA76737181B7A1365B9434D780B226036" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\VirtualEMS.DataServices.dll" />
+            </Component>
+            <Component Id="cmpBC38556704E90A1D7C167A27F19FF619" Guid="{CD787ACD-C1B9-4180-B4C1-0BCF6F2D87B2}">
+                <File Id="fil83FFA09167A7CC1D9BC6A5E13CACC5BA" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\VirtualEMS.DataServices.dll.config" />
+            </Component>
+            <Component Id="cmp807DEFF33F96806DD442875D75114212" Guid="{682C209E-3B05-4A27-8A38-03EF86CBBC4F}">
+                <File Id="fil95CDDF0DD145D1EFA5AB75A023F575D5" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\VirtualEMS.DataServices.pdb" />
+            </Component>
+            <Component Id="cmp454F3F51C0E63EA0FF1920C8EDC7ED44" Guid="{069570BB-4DAE-445C-A94F-052800700A99}">
+                <File Id="filAD9648A748E3CEC8AEEFAA5ADEDDD592" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\VirtualEMS.Library.dll" />
+            </Component>
+            <Component Id="cmp5BB0638BC0E8B7EEE12869B5117B80AA" Guid="{D1BBFDD5-C0FA-45DC-94A4-87C6A65353C6}">
+                <File Id="filA88AA70C9C18C22193ED606052707966" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\VirtualEMS.Library.pdb" />
+            </Component>
+            <Directory Id="dir2B251E90960BA18653BFA3DF8BA33763" Name="Resources">
+                <Component Id="cmp554F41315A2E2C67CA17509858CBC541" Guid="{E788776C-C2FF-4310-998A-3FCE3DF8930A}">
+                    <File Id="filDC78B5E91062155DC1D4A6835BCE62BC" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\Resources\Virtual Reports.ico" />
+                </Component>
+            </Directory>
+            <Directory Id="dirDD4C8A51273F47EFE69DBB7962C9D06B" Name="runtimes">
+                <Directory Id="dir47F37DF76597FD1E81D1858E4B80464B" Name="unix">
+                    <Directory Id="dir4CAF9C398BBB4EAF55C06538667976FB" Name="lib">
+                        <Directory Id="dir44443143D86634C75874E79C401D4A2E" Name="net6.0">
+                            <Component Id="cmp7EB770E5044528F63FF3773BAA8E76B4" Guid="{FC07D6CA-C444-4F6D-B71F-24E24CBC7C1E}">
+                                <File Id="filD7470A56F43964D0F22569D763C5AB03" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir95A5991C689BF903568E3F24845B4353" Name="win">
+                    <Directory Id="dirE7CC09F3E1E82DDC28C78C235476B831" Name="lib">
+                        <Directory Id="dir42938B3F48D45FAF597C27C04949932E" Name="net6.0">
+                            <Component Id="cmpF15DC11793760E0B3119D605F3E47422" Guid="{FDB116D3-8B2E-4C66-A5A2-9642B11F60BE}">
+                                <File Id="filF69CC123302430026C89CBB041BBBE50" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll" />
+                            </Component>
+                            <Component Id="cmp6E6CA110E106883FC2141AD3AF415E25" Guid="{58C80924-812E-4637-99DC-9CFE089FB1BC}">
+                                <File Id="fil6C88C0430F7BA90779E5E27003B24E51" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\runtimes\win\lib\net6.0\System.Runtime.Caching.dll" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+                <Directory Id="dirE5942BDD9599DF9D6A3A8E0AEC437966" Name="win-arm">
+                    <Directory Id="dir76F851E2526B4B2D2F749202E49F42A2" Name="native">
+                        <Component Id="cmp2463961D412CE0B0528D1FFA6983391A" Guid="{D8887AFD-F7B4-42A5-AEF0-0552A2062EE7}">
+                            <File Id="fil0EB88994AC80B96A1BE4CB8C090DF3EE" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir97073086BE608BEB3355151402B39EE7" Name="win-arm64">
+                    <Directory Id="dirDFB22E583E0EDFA067CE8BF7BF93F245" Name="native">
+                        <Component Id="cmpEA0531DBA366928226265FB3893C94A5" Guid="{C163DDD5-F68B-48B9-AD6E-1103D1D60165}">
+                            <File Id="fil6FEBC238A1D0A4FF59A87EDBC8D5B56D" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir7682E600333B2BA1714C72F120BC586D" Name="win-x64">
+                    <Directory Id="dir279EEE38437E61596BDEF592DE870729" Name="native">
+                        <Component Id="cmp9D89C74A8C57201F8FB87FF641656B59" Guid="{6B1BD160-3505-48C3-874D-CDCEACC9267F}">
+                            <File Id="fil9A8A2B9A7087B0701DD29BEE5EDDF207" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir0E753385A641B19BD652E95A960FAAE2" Name="win-x86">
+                    <Directory Id="dirA471BA5455C7B6AFD8DC36B64489F510" Name="native">
+                        <Component Id="cmp8AD2F99661D3D8261DB4D9417C6CAFDE" Guid="{3C02A2F6-C3DC-4573-A4B6-0C6FE818957F}">
+                            <File Id="fil36320DB680AC52C35323D0E1EFBEF361" KeyPath="yes" Source="$(var.ManagementConsolePublishDir)\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ManagementConsoleGroup">
+            <ComponentRef Id="cmp01760B9DC2F152738F297EED00A36BB2" />
+            <ComponentRef Id="cmpC4FCECAA21A7768582CA23B6C74779EE" />
+            <ComponentRef Id="cmpAD48AC6B32F220D74714AA824C69066E" />
+            <ComponentRef Id="cmp582BDA75DDAEE838A9D937ACA24FCC90" />
+            <ComponentRef Id="cmp65A6F2693966B356564C5FD2CD2FBCFD" />
+            <ComponentRef Id="cmp8D6F37414EAC28A8BBB556C6475DEFE8" />
+            <ComponentRef Id="cmp7DF9A1B15BA7CE1F0F5EDDC728F853C8" />
+            <ComponentRef Id="cmp40C4E5F9F65C84041971E712529CBE6B" />
+            <ComponentRef Id="cmpEC0F8104F4998AC9AA5D741B54170E89" />
+            <ComponentRef Id="cmp283F1007F05A44E3B873517BF8E4C2EE" />
+            <ComponentRef Id="cmp1C6BAC3DE7D1F42748F6739A914FBCA3" />
+            <ComponentRef Id="cmpABC1AE77B06B95A64D937FCF3B84FFBF" />
+            <ComponentRef Id="cmpE16347E33D8AE1DBFAEF3F800A1157E9" />
+            <ComponentRef Id="cmp4C4A5DD537B7CA0014B37BB900E89533" />
+            <ComponentRef Id="cmp6E4BF9C464E7649946265C7DE571FD2E" />
+            <ComponentRef Id="cmp1C19EED995C4A5AAF817AD52CF18AD8C" />
+            <ComponentRef Id="cmpA52487EC4D36527DD54D2E8F945C751B" />
+            <ComponentRef Id="cmp9EBB48B782DFAC4541A9DE76FEEDC2F7" />
+            <ComponentRef Id="cmpDB2A5C8A35D9FE855D368F7CD0B110BE" />
+            <ComponentRef Id="cmpCF93258AA291A8DBC5ED8467A2B5629F" />
+            <ComponentRef Id="cmpF9953F5CDB4262968463AAB93A025F8A" />
+            <ComponentRef Id="cmpF814D9F5E53127E6D31A9C7E1C36D77C" />
+            <ComponentRef Id="cmp27AAE674AF02AE93EA88EAA6E813767D" />
+            <ComponentRef Id="cmp181ABEC91A1209B415AB142BAEB1C1F9" />
+            <ComponentRef Id="cmp56C250BCF140706157BD195E23FAC76A" />
+            <ComponentRef Id="cmp7EE81F83EA8465C4C7BF97B8A3BACBED" />
+            <ComponentRef Id="cmpADD408E59C27F9C3866101B00489EC25" />
+            <ComponentRef Id="cmp068AB14A6D763A4811B16D123DC9353C" />
+            <ComponentRef Id="cmp6578B3A5228FCDD9C7DBA44036CDE346" />
+            <ComponentRef Id="cmpA095C3727CC94B647DCFC29F654664CD" />
+            <ComponentRef Id="cmp0C5AC2220832D8C8EB5F781290F1E113" />
+            <ComponentRef Id="cmp67B21FC8387ADD54F64AAAE5BFC98A48" />
+            <ComponentRef Id="cmpEF681BE675C54A40B92E6A978B61CE23" />
+            <ComponentRef Id="cmp60F0FFFF0B1347693B8D5BB6BA0EE0E3" />
+            <ComponentRef Id="cmp899BDC2D7D75D8B9F687A1E3431BABE7" />
+            <ComponentRef Id="cmp8235A99C0410F82D9BED0A764E777214" />
+            <ComponentRef Id="cmp4C5F148C6E1435636C1069540509A029" />
+            <ComponentRef Id="cmpBC38556704E90A1D7C167A27F19FF619" />
+            <ComponentRef Id="cmp807DEFF33F96806DD442875D75114212" />
+            <ComponentRef Id="cmp454F3F51C0E63EA0FF1920C8EDC7ED44" />
+            <ComponentRef Id="cmp5BB0638BC0E8B7EEE12869B5117B80AA" />
+            <ComponentRef Id="cmp554F41315A2E2C67CA17509858CBC541" />
+            <ComponentRef Id="cmp7EB770E5044528F63FF3773BAA8E76B4" />
+            <ComponentRef Id="cmpF15DC11793760E0B3119D605F3E47422" />
+            <ComponentRef Id="cmp6E6CA110E106883FC2141AD3AF415E25" />
+            <ComponentRef Id="cmp2463961D412CE0B0528D1FFA6983391A" />
+            <ComponentRef Id="cmpEA0531DBA366928226265FB3893C94A5" />
+            <ComponentRef Id="cmp9D89C74A8C57201F8FB87FF641656B59" />
+            <ComponentRef Id="cmp8AD2F99661D3D8261DB4D9417C6CAFDE" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

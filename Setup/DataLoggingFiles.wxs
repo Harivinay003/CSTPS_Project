@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="LoggingDir">
+            <Component Id="cmp3258D6E1CDCAC778DBCEB9E4B4D47097" Guid="{2476EE2A-A18B-4C11-8266-799EC7159E5F}">
+                <File Id="fil24F0E4D52BFF0429F82C95999D8B38F9" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\appsettings.Development.json" />
+            </Component>
+            <Component Id="cmp9CA0C0324C51348C6388008074FE606E" Guid="{36CE2997-54DD-4303-9FD3-A2776D0F33A1}">
+                <File Id="fil3F005D5C5246D62541B7F2D401923962" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\appsettings.json" />
+            </Component>
+            <Component Id="cmp8A5E58A5C3F65CDE567F77CBAA95D87D" Guid="{95E1473B-635C-46A4-AC61-3532E0BE025D}">
+                <File Id="filC27A12BFFC2D38A23DF11EB4511D53FE" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Azure.Core.dll" />
+            </Component>
+            <Component Id="cmpD89873EC53C2A3560FA8BBB29D4EF214" Guid="{D8B1481C-B5F2-4BBB-8629-44CD13C9304F}">
+                <File Id="fil922F456D3CC103E94EB6FB802F696D95" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Azure.Identity.dll" />
+            </Component>
+            <Component Id="cmp74515A4CD57ADD07D08BA583B0AE70B4" Guid="{819A750E-A641-4DD7-8DDF-0BBEAE5A339B}">
+                <File Id="fil4DF32A14ADD91BE929CB2027D2260DD5" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\DataLogging.deps.json" />
+            </Component>
+            <Component Id="cmp967E854AB3BB6AE7B7E95DBD2AB596C9" Guid="{D0C40F4A-EC4C-45EB-A60C-F5081035C0E0}">
+                <File Id="filAD7E5206486614E114FCBC540817EBEC" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\DataLogging.dll" />
+            </Component>
+            <Component Id="cmpCE223A1C8FE96D9AF83F6818E2A2F36A" Guid="{75B03DCC-D780-42AF-B25E-387E86E7089B}">
+                <File Id="filAB4B51912F43966042263172D3C0DC98" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\DataLogging.exe" />
+				<ServiceInstall
+					Id="DataLoggingServiceInstaller"
+					Type="ownProcess"
+					Name="DataLogging"
+					DisplayName="Data Logging Service"
+					Description="CSTPS Data Logging Service"
+					Start="auto"
+					ErrorControl="normal"
+					Vital="yes"
+					Account="LocalSystem" />
+
+				<ServiceControl
+					Id="DataLoggingServiceControl"
+					Name="DataLogging"
+					Stop="both"
+					Remove="uninstall"
+					Wait="yes" />
+            </Component>
+            <Component Id="cmpA0190484F9CBDC518B85D7D9DBF315AD" Guid="{C0DDA162-3603-4219-AB6D-DBAA250ABF73}">
+                <File Id="fil6740D01660FE006FCC296D1CBE86CB6A" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\DataLogging.pdb" />
+            </Component>
+            <Component Id="cmpB5463F8410FC165170215303D0864B08" Guid="{5E078C69-BF79-467E-B261-BB5A31867D95}">
+                <File Id="fil9928B44E0A983D8237D9204CF236DFC2" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\DataLogging.runtimeconfig.json" />
+            </Component>
+            <Component Id="cmp53EBBA2366F8AB0528B2E3499348A0E1" Guid="{CCBD73AB-749E-4217-868C-C5A8A71419A1}">
+                <File Id="fil5C7AF3B57AD8B38553A037518869595A" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\FluentModbus.dll" />
+            </Component>
+            <Component Id="cmpD4E763A019A5277509EA82A792122FB3" Guid="{E6398044-1332-48AA-9AE5-9690EE505088}">
+                <File Id="fil7051423453F74B36B03029AD2E0C82DD" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Bcl.AsyncInterfaces.dll" />
+            </Component>
+            <Component Id="cmpC6D4CD7EEB1C04C5A45CB4F0820E4CFF" Guid="{C6F7FE7F-5BC9-497C-BD60-8E23078EB594}">
+                <File Id="filDFD4047CCC83D0C56006CDA2FE19149D" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Data.SqlClient.dll" />
+            </Component>
+            <Component Id="cmp3CF83B00ED65FD586EA4C13C240445C6" Guid="{868C5428-CCBB-4941-8BFF-DB8643944F69}">
+                <File Id="fil23D57E8CA1CF8D2C4D8D0C9D6D4EA0DE" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpC786B93B2F86B398DF27C05086CCF452" Guid="{F2CDA03A-44CA-4587-89D6-FEA2FF713026}">
+                <File Id="filEA4A81C2C23E25340A941B1FE1B0EDBD" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.EntityFrameworkCore.dll" />
+            </Component>
+            <Component Id="cmp872B9796BEE77F9B4E7536C18E4E26B3" Guid="{7B593563-CEA2-43C5-9ECD-E717AC4DF793}">
+                <File Id="fil16B7876C777596935978E8DE71D6DE79" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.EntityFrameworkCore.Relational.dll" />
+            </Component>
+            <Component Id="cmp61B8402144DC12C03B3947D96253F077" Guid="{ABE1FD74-97BD-4EF8-9A20-637A853AB544}">
+                <File Id="fil53061467CD222691BD712E02ECF70331" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.EntityFrameworkCore.SqlServer.dll" />
+            </Component>
+            <Component Id="cmp5781A9DF30903EB1E6FAD8372700CEA4" Guid="{371FAF27-CC43-4C62-AA34-7ED925C2F122}">
+                <File Id="filD3A350F07231CED05798E64E5779CEC5" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Caching.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpBAAA7D4699E7511016E1C86394D24EAC" Guid="{54E956A1-3416-4B17-AC13-465431BFF1DB}">
+                <File Id="fil0104CA8695F9AB9CC97CE4E688325D69" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Caching.Memory.dll" />
+            </Component>
+            <Component Id="cmp7FAFA0B4ECBC6764E2B981D6609630E6" Guid="{9E332F00-A338-40FF-AD4B-91D45BBDC195}">
+                <File Id="fil294C6D53E98953906C5A0BEA01261402" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Configuration.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpB22F1E1892FB8533613E6A88D3B378A6" Guid="{46672CFE-2D5E-48FC-B9AE-EEA730C677CF}">
+                <File Id="fil27EA963DE3990CD8E25667A445CDF65E" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Configuration.Binder.dll" />
+            </Component>
+            <Component Id="cmpA02E15CA378E6C66565A2B636C860827" Guid="{11684D2E-FF33-4167-8978-4CB27DFD0367}">
+                <File Id="fil988813F1E37CA3966F56DFD1C53620FE" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Configuration.CommandLine.dll" />
+            </Component>
+            <Component Id="cmp42CF42B9C8FE5D59DD4F69B45C0C01E0" Guid="{83ECBB0C-93CF-462A-BEBB-6E9DADD18AE8}">
+                <File Id="filAFD0ECBD2BACFDB89B6B0A7641036890" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Configuration.dll" />
+            </Component>
+            <Component Id="cmp5EF22BFE485C69DC44A4BD8290CAB2E4" Guid="{2CA0F430-91C2-4D8B-ADC0-5E3A6CD5CC0E}">
+                <File Id="fil8E8E2ED303B1A6F20A49A428154C22AE" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+            </Component>
+            <Component Id="cmp1609D4D522135BC5504D759FB972F55D" Guid="{ACD5E178-17A7-4A9F-81D5-F1A4BE24A02E}">
+                <File Id="filBF572B5ECE7A9B43BECCAEEE75E85E4A" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+            </Component>
+            <Component Id="cmpC9CC16D5BACEBD4015DA160A3BC606D4" Guid="{AA63A6CE-D7E7-4F17-AB1C-FC7234A8FA6A}">
+                <File Id="fil963A4311B7150D7D82E662F1EED9DCE1" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Configuration.Json.dll" />
+            </Component>
+            <Component Id="cmp0E367C79BC55252E5561439E96A70390" Guid="{C66F0B9D-F204-477E-BB2A-08CDBCF892A8}">
+                <File Id="fil69A27ADF10370C7F225A3CA436C4A161" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Configuration.UserSecrets.dll" />
+            </Component>
+            <Component Id="cmpE71270D2E1732C8E453F5B24BC7A6A65" Guid="{77F29B93-A0AE-40E9-A652-FA90F76AFD7F}">
+                <File Id="fil87A9B7B3D5C86F89C5DC343D39BB65ED" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpCA693B3F23190D159070DE9023F99369" Guid="{C7F43E3C-FB1F-4D57-AA3C-92C782FFAF1E}">
+                <File Id="fil037A48C38FED1A84BAA71A3D5571D24C" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.DependencyInjection.dll" />
+            </Component>
+            <Component Id="cmp9029FEC3EA4203E3CB50922F18B18DD3" Guid="{6180001B-65C9-4417-A0A9-CFF5B26EB1F9}">
+                <File Id="fil47ECCCBD6E9A1D9C5C396F7E5DA78BB4" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Diagnostics.Abstractions.dll" />
+            </Component>
+            <Component Id="cmp0B48A5E268B3B900DDA9AD8C880EB007" Guid="{C3047AD2-6AAD-421F-B4CA-CEC8B772455D}">
+                <File Id="filE3FE99B85C4E513575EC1D994AE0629C" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Diagnostics.dll" />
+            </Component>
+            <Component Id="cmp60115A63DD7895491F0BB016E72A5766" Guid="{C073F416-24F9-44DD-B9BC-519E26E8ADEB}">
+                <File Id="fil60112B69F036900E3E92A2C744166054" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpAF67F397C8115118D1FEEEA973E2221B" Guid="{4214671B-58BE-4FF1-A121-09BE0308FC9D}">
+                <File Id="filFEDEF927AD7309BFDD5F03FE1EC28B6B" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.FileProviders.Physical.dll" />
+            </Component>
+            <Component Id="cmpE8E38B53BCF651671914806EB1B6F898" Guid="{39E0C341-BC1D-4244-B552-A13637629522}">
+                <File Id="fil4A626D4D4BC4FC24EEA4A7778FCB98AC" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.FileSystemGlobbing.dll" />
+            </Component>
+            <Component Id="cmp81593FA8DEBEBA745B3CC7DAB22C1949" Guid="{7EBF8C9E-3982-4F5B-8857-D50997623260}">
+                <File Id="filA6212ADEA363BC8FED70D4BDCE81882F" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Hosting.Abstractions.dll" />
+            </Component>
+            <Component Id="cmp8F5E860093591647C9453FB342627CB8" Guid="{2CB202BF-F899-4D82-B94D-222F705313B2}">
+                <File Id="fil8041143070BED515C304001ECCAF2F5C" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Hosting.dll" />
+            </Component>
+            <Component Id="cmpB950BB6259144FF7C75712DEEDEBB2D3" Guid="{911FE1B8-48A3-42DC-914E-D71597BB71D9}">
+                <File Id="fil4E31F56C929934BC842A0528EC1E39A1" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Hosting.WindowsServices.dll" />
+            </Component>
+            <Component Id="cmpD6EA5BD7925036FA32BCC2983BB4E2D3" Guid="{7D6F3B9F-E821-4E7B-92E8-9B64939FC9C1}">
+                <File Id="fil4E2E1B239F83EA8A1498CB4170AB760F" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Logging.Abstractions.dll" />
+            </Component>
+            <Component Id="cmp43A20503BAEBF26F9288C6CDBDEE6A00" Guid="{A136AADD-CE51-4B29-A008-866B78C1A152}">
+                <File Id="filA1D765F6EB71869847F4B5CF52B668B9" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Logging.Configuration.dll" />
+            </Component>
+            <Component Id="cmp7A3799C24BEB0004E9505BFC74B78B43" Guid="{2455C9C3-26B3-42B1-9BB5-982400E628FC}">
+                <File Id="filAB36AE887A1AA98AF67C252221BAB0E4" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Logging.Console.dll" />
+            </Component>
+            <Component Id="cmp63EC5C6FFCF36CF604A9555D198F124B" Guid="{D3AF2C75-2AB1-4339-BF36-E3E2CCA109AA}">
+                <File Id="filF9A1027CB0DA909F8868F84B5A400629" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Logging.Debug.dll" />
+            </Component>
+            <Component Id="cmp7C6602D4D606D46A6638DFE4AE483068" Guid="{90DF53CE-EBCC-4FCD-9675-A94E5A831ED2}">
+                <File Id="filCA24D6CEBE3DAD87BCB8531536CD1AD7" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Logging.dll" />
+            </Component>
+            <Component Id="cmpD8E0B272F4B36E5C912F8381EFD58E06" Guid="{66EFD347-FA04-4080-ACD4-98491054CB94}">
+                <File Id="fil0F4962A5A2B29A6E2FB9D4F0AA440CCA" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Logging.EventLog.dll" />
+            </Component>
+            <Component Id="cmpA0ABA4883EAB7F246C43F6B7E4311047" Guid="{EB930272-B656-4206-9FD5-2558A9F7D92C}">
+                <File Id="filD39BC4CF22765FCCAA8537A6F050E0AE" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Logging.EventSource.dll" />
+            </Component>
+            <Component Id="cmp82B37C1F42D2AE23407109643F39A8DD" Guid="{C9CDD335-38C3-4876-941F-1840C23A292C}">
+                <File Id="filF9C76849C554E2500E6C8E2BB66258A1" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+            </Component>
+            <Component Id="cmp4808F641F46897F9458DD9DFCDBE09A9" Guid="{279C18A5-457A-4D1C-92BC-69E4CDD106C3}">
+                <File Id="fil964426F333D445DC28AEE4A1FDDF7E59" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Options.dll" />
+            </Component>
+            <Component Id="cmp627A76B0BA2BDA27026F3C61FD905C3E" Guid="{55B163C9-360D-4F1D-8C84-13167316CF52}">
+                <File Id="filBC5D2D496640F9E0E742AE3B133F58A5" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Extensions.Primitives.dll" />
+            </Component>
+            <Component Id="cmpA1B914D073FDAA7AEEDF22F0CB50D1BA" Guid="{309EFE7E-1E3D-4899-8DBB-D1216063A87D}">
+                <File Id="filD2C1D5965AC1E8A325DE7C0150839CE7" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Identity.Client.dll" />
+            </Component>
+            <Component Id="cmp0A756DD1A852998922B88C04BD95F027" Guid="{E024475B-0575-46AB-B90F-65D1E5973B11}">
+                <File Id="fil5F5670F524E34F803CA498CE8E465A32" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.Identity.Client.Extensions.Msal.dll" />
+            </Component>
+            <Component Id="cmp520FA912F513DFC3E8C0271CEBD7F448" Guid="{3A3093E0-7B07-434B-9A46-FD0F6ADFBFB6}">
+                <File Id="filB1AE6885D623CA41576DDBC29B8C4A03" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.IdentityModel.Abstractions.dll" />
+            </Component>
+            <Component Id="cmp05A0A343E6385DA73DDA0680067F582F" Guid="{7163C327-CF08-455A-9A63-0C305F9CC2C4}">
+                <File Id="fil7E42444740F8BA37A74C73A06D439E98" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.IdentityModel.JsonWebTokens.dll" />
+            </Component>
+            <Component Id="cmp693E8C260DD1D9A5FA63397E5E96BD50" Guid="{411B7E66-7597-4813-BC17-BB942FCDD32A}">
+                <File Id="fil15D6876C391E07F3A14E5FBE2A23F3A1" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.IdentityModel.Logging.dll" />
+            </Component>
+            <Component Id="cmp38FFF9F2A269193AA9E9A3BF4994B962" Guid="{760F7E8E-4DCE-43D7-AE8C-44DCD78BA462}">
+                <File Id="fil02DAE5C25C863530EB9480FC4B73A4EF" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.IdentityModel.Protocols.dll" />
+            </Component>
+            <Component Id="cmpBB18F118064915D158688A4482166C05" Guid="{2C57E1A0-C0D8-404A-9B97-F24A66A7CEFC}">
+                <File Id="filD5268521ABB77F318A66D1DBC53ED934" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll" />
+            </Component>
+            <Component Id="cmp00B1A98B0B029C09002229AB04D5DC1C" Guid="{2AE0B892-2391-46FD-BB9D-BC34F27706C9}">
+                <File Id="filB86EDF60CF228C560FFE6032765F51BB" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.IdentityModel.Tokens.dll" />
+            </Component>
+            <Component Id="cmpE73B89006A0735962771DBC45FFF6840" Guid="{69FEB8FF-1862-4A3B-A0AC-DBB8FA948408}">
+                <File Id="fil32AFD9A0E45E47831D026652EB6DEDDF" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Microsoft.SqlServer.Server.dll" />
+            </Component>
+            <Component Id="cmpD712A1F323A53FB9A0858DFC842ECD84" Guid="{8B262DA1-8A79-43FA-A135-73E3E23F3C08}">
+                <File Id="filA85A215F0945377FD553B260CB83B786" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\System.Configuration.ConfigurationManager.dll" />
+            </Component>
+            <Component Id="cmpA81D437B1BF35FC049A03F6DBB0A0D1B" Guid="{632C26E8-EC06-4581-8824-90492D0D7F77}">
+                <File Id="filBCBCC8C893A8A17D83CE288E15303D85" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\System.Diagnostics.EventLog.dll" />
+            </Component>
+            <Component Id="cmp2967ADAA9CF017CB8C9196158509B3F7" Guid="{47D60737-32C6-4FD3-9DF1-CAA81788760D}">
+                <File Id="fil1EFB22C8FD92B7C9E787F5D1EA0D248A" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\System.IdentityModel.Tokens.Jwt.dll" />
+            </Component>
+            <Component Id="cmp180E4AD2C05AC56EFDF49504FA9CB2C5" Guid="{E4794A4B-DEE2-4F4D-8423-27FAF2F692B2}">
+                <File Id="filE9110559EE4FAB0684E9918789CCE1A2" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\System.IO.Ports.dll" />
+            </Component>
+            <Component Id="cmp44090FB5606451409EEE1E0996AA5E73" Guid="{5A4FF9CA-C452-4251-9C70-4D34DFE8D7FC}">
+                <File Id="fil0A4B7C22200EC425AF2513DC0341639C" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\System.Memory.Data.dll" />
+            </Component>
+            <Component Id="cmpE091787A48763D22D64009F26279C087" Guid="{B3C4130F-F9F6-4E24-ADAA-81D5927364BE}">
+                <File Id="filA96770658FE71DE594FC8AE1CFD0EE31" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\System.Runtime.Caching.dll" />
+            </Component>
+            <Component Id="cmpFED70B3F945BE6708476294357BA3787" Guid="{A88816D2-B8E5-4F41-B6BB-4C50E1156AA7}">
+                <File Id="fil286E6229FDD37338DFBA38ADFF7128A6" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\System.Security.Cryptography.ProtectedData.dll" />
+            </Component>
+            <Component Id="cmp12323059748C87792C706210BFDCD8C5" Guid="{C4BA4E7A-7CB7-409C-9E35-E8616A0B8C12}">
+                <File Id="filA89B170586E5A525DE51A4E2776DE5D9" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\System.ServiceProcess.ServiceController.dll" />
+            </Component>
+            <Component Id="cmpCE78E28C29FAB111C3F5FC82192B1881" Guid="{BAD04135-8C78-466A-86BE-BF23C9491164}">
+                <File Id="fil670166ED2D292951023DE937DDA0CBCE" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\System.Windows.Extensions.dll" />
+            </Component>
+            <Component Id="cmp803274B704F4159AF9D722C0DDFBE877" Guid="{CF12554A-DE23-407E-A56C-A93E3FE635B2}">
+                <File Id="fil87F13DF046B48F11616AD72164A00E7A" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\VirtualEMS.DataServices.dll" />
+            </Component>
+            <Component Id="cmp236C697FF081A95F438F4BB971C211A3" Guid="{5F642F92-1E78-41ED-899D-D340E1BEB391}">
+                <File Id="fil731A96D4C8638F27AEB3D4E703F35BD4" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\VirtualEMS.DataServices.dll.config" />
+            </Component>
+            <Component Id="cmp311C0F446E0EFC95C8613CA126C52C20" Guid="{AFC58AE8-52BD-42A5-8ACF-66BB5811CF14}">
+                <File Id="filBBC01D979D85224EFB5618333E5CCB97" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\VirtualEMS.DataServices.pdb" />
+            </Component>
+            <Component Id="cmpCBE1CFE52F587362D1D98E29B2DC03D7" Guid="{7F691F96-FB36-479D-940D-18C142B236CC}">
+                <File Id="fil45F766D2A570F040A6BBA64658BFE7AB" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\VirtualEMS.Library.dll" />
+            </Component>
+            <Component Id="cmpB280BD5C8CC1592A4154758343EFB056" Guid="{6255C818-A74B-4BB6-A7E6-20F1122FECF3}">
+                <File Id="fil9FB7F51CA539B047F02219ED24FC4EB1" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\VirtualEMS.Library.pdb" />
+            </Component>
+            <Directory Id="dir5C9EB5AD13FFF5DAD8F41EBF58C6022E" Name="Logs">
+                <Component Id="cmpF92BBFA3A95580CB12A61D8FA6CF7CCB" Guid="{AD9FEE6B-AFF9-4A07-A4BE-16F894846D91}">
+                    <File Id="filEC54B8453B96FD43D7C24D6EA064AD1B" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\Logs\DataLogging.txt" />
+                </Component>
+            </Directory>
+            <Directory Id="dir5F3FFEC934ED08FB3C0CE8457B475B8F" Name="runtimes">
+                <Directory Id="dirB5D54C4B9852D07911AB1C83D84B88FF" Name="linux">
+                    <Directory Id="dir487F34AE1F26CF9233A4C5D37C0E5723" Name="lib">
+                        <Directory Id="dirA96BC173AB3ACB70A365C9BF6FF58364" Name="netstandard2.0">
+                            <Component Id="cmp6BF04BE51895A71635120BAB3A1B5E64" Guid="{AB05608D-203B-46AF-BDDB-6096F9AA21EA}">
+                                <File Id="fil33E281E22F0F350F9EB22B718AB4041D" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\linux\lib\netstandard2.0\System.IO.Ports.dll" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+                <Directory Id="dirC182DEEDE6A9C4BBCBC388244FBC3889" Name="linux-arm">
+                    <Directory Id="dir18B94123FCC8C67CCEF7AF624D69E5E7" Name="native">
+                        <Component Id="cmp41BEA15445A7F20EAB905D3EA14BE4CB" Guid="{51F33FB6-5163-45E3-A3D4-803A76271574}">
+                            <File Id="fil837BE12483B155D042C14B11B0871B64" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\linux-arm\native\libSystem.IO.Ports.Native.so" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir46C7DC794B08756AAC2C7627FED1A0EF" Name="linux-arm64">
+                    <Directory Id="dir8F73D71E4234C2C41E57DD0F8FCE0A43" Name="native">
+                        <Component Id="cmpA89EAE958B185A6F657A9E1056C0633A" Guid="{D443086A-DF47-4C0E-8B6F-3CA23E2B0198}">
+                            <File Id="fil015B1A1F391E9050A970C5C8DE679CA4" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\linux-arm64\native\libSystem.IO.Ports.Native.so" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir9EDC4EEE143D32C220B571133350A189" Name="linux-x64">
+                    <Directory Id="dir8230E3039F7A67734CB23EF2D061AC54" Name="native">
+                        <Component Id="cmp9B0FEBE3EA5F756BDA32C8E010989440" Guid="{DF616796-40B6-4583-9FE0-2D8A014A3F33}">
+                            <File Id="fil406D6B596517E7DD84E0F11D9D63E6B1" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\linux-x64\native\libSystem.IO.Ports.Native.so" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir354EC9CBD7B94D387A7733CA9BD16E87" Name="osx">
+                    <Directory Id="dirC579989B6A4A3B6F2937BD5A72FAE353" Name="lib">
+                        <Directory Id="dirC0428596C6C00678147F1CDD7B69A0F4" Name="netstandard2.0">
+                            <Component Id="cmp715488801B08623DB65F78EF0DD08F8B" Guid="{168028B7-A720-4DBB-AE5F-3378E99B4DC5}">
+                                <File Id="filCC9822589EBFCCE0750E2D81B2F80C7D" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\osx\lib\netstandard2.0\System.IO.Ports.dll" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir1247254916A6987604F64AFC28067B10" Name="osx-x64">
+                    <Directory Id="dir603B7095D7C960B268E32CD3BFEDB70E" Name="native">
+                        <Component Id="cmp6324F11E104260883E62207A830E3DE9" Guid="{B2CE7A23-1D94-40DE-A876-84C2667B555E}">
+                            <File Id="filAF8FBCB454AD1761DE5B23C64C59663B" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\osx-x64\native\libSystem.IO.Ports.Native.dylib" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir2D601DD9FEFED4651733193640F60D72" Name="unix">
+                    <Directory Id="dir11158A7FE06C88E1D4706F2C9CBCDEBF" Name="lib">
+                        <Directory Id="dir6EF69BEA62A11D4C627D27CEA3795891" Name="net6.0">
+                            <Component Id="cmp764B69E998F52D69EA2E0D429ADC13C0" Guid="{F0277B32-1A18-4762-9243-34AF60766790}">
+                                <File Id="fil8AE817F03FF390E1FB3B3D82C8ECA075" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+                <Directory Id="dirA5713BFE679B47BC5C69056682FAABF1" Name="win">
+                    <Directory Id="dir14905886ACFC3F643F99C6AE716C96A5" Name="lib">
+                        <Directory Id="dir717C75047C144F63D2EDEE865B79464F" Name="net6.0">
+                            <Component Id="cmpB4BA8C7AF33BFF649D820838C0B79826" Guid="{F6D832E3-A614-4191-8759-D27FC122AD9B}">
+                                <File Id="fil762B68A1467614C4229654351A30CCC3" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll" />
+                            </Component>
+                            <Component Id="cmpABBB70DBEF632D39EB0B81988E52599A" Guid="{CB3CD520-6F49-4756-814F-90B70CB0ED0E}">
+                                <File Id="fil57C8B9AC74B97041BA523CBE329F7E11" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win\lib\net6.0\System.Runtime.Caching.dll" />
+                            </Component>
+                        </Directory>
+                        <Directory Id="dir03FA396EE46063587D34E8A4DCD089C8" Name="net8.0">
+                            <Component Id="cmp5E89BEEA9144CE236859143BF63C07CB" Guid="{B4820663-5350-4580-8165-392EF10F3678}">
+                                <File Id="fil2BEED7FFED71D912D9089D4602CA85D3" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll" />
+                            </Component>
+                            <Component Id="cmp3BBA36DDF447903023756927121C18B3" Guid="{19576021-813F-43B2-9EAB-F1A2D52E3F0D}">
+                                <File Id="fil843F3A404579FC1B1E09F331F85FEDBF" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.Messages.dll" />
+                            </Component>
+                            <Component Id="cmpBE6FFDAC48B753EE29DEFC5D9A1752D7" Guid="{0B0B90B8-F11F-486D-870D-CAA573809F21}">
+                                <File Id="fil39427FD8A0F11685CD0CDC677581CDDF" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win\lib\net8.0\System.ServiceProcess.ServiceController.dll" />
+                            </Component>
+                            <Component Id="cmp0E8E539E26426C17D91CC268E5A8651F" Guid="{82CE0B34-0FC9-4010-AD4C-DCADEE367D7B}">
+                                <File Id="filEA7B04E62A19EFB600C4D7217EABEBB3" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win\lib\net8.0\System.Windows.Extensions.dll" />
+                            </Component>
+                        </Directory>
+                        <Directory Id="dir0AFC10277F0CF9CCE66EF0096C4FA1AE" Name="netstandard2.0">
+                            <Component Id="cmpE22B948FE7C53F0AD9D871F555771357" Guid="{0704ADDB-3A11-46AA-AEF2-21B04B00AF42}">
+                                <File Id="fil0AB86525DE45BEFD0997AED752E04850" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win\lib\netstandard2.0\System.IO.Ports.dll" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir6393AEA8221D939E8904AF6239AD7708" Name="win-arm">
+                    <Directory Id="dirD24326F9054B94A92C1ADFE6BB2FB606" Name="native">
+                        <Component Id="cmp53E11881BF26295E83932933739529C0" Guid="{D109ABC8-F2A3-4B18-A7D9-07811C149A83}">
+                            <File Id="filFCBBFB33256C5656F4EBE154F534EB33" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir91A7B412106F7CC60CEBD07782C10ECD" Name="win-arm64">
+                    <Directory Id="dir475C833DE9484BA79D5C735FC00C5081" Name="native">
+                        <Component Id="cmp3CA30D5573BA204DA45A2711D25D9382" Guid="{E8EC187F-232F-4640-82BC-540644445685}">
+                            <File Id="filB89AA82692D0B644C25551F9018BB89A" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir9DC02748EDC5186A57E9183C2AD1574D" Name="win-x64">
+                    <Directory Id="dirBCFF806C320BBD357FED198A5A0D3C77" Name="native">
+                        <Component Id="cmp680B8719BD8F171C91C8B57C6512685B" Guid="{C3432B88-78BF-4982-883D-B5C7D96CD6F8}">
+                            <File Id="filD0BA56A67D2907986E72FE3744D9C40F" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir9062FD7CC0E0A2FA1DD28DCFF7536AD4" Name="win-x86">
+                    <Directory Id="dir444583E1BAB4137C421F65BDDA5D6073" Name="native">
+                        <Component Id="cmpD9B6BB8C8043EB72539E8D2F29FF30BE" Guid="{473AA481-7508-46C8-98C5-3147E8D9DC50}">
+                            <File Id="fil08AD55FA7DEC38DB0EAA1BEF190DB92A" KeyPath="yes" Source="$(var.DataLoggingPublishDir)\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="DataLogServiceGroup">
+            <ComponentRef Id="cmp3258D6E1CDCAC778DBCEB9E4B4D47097" />
+            <ComponentRef Id="cmp9CA0C0324C51348C6388008074FE606E" />
+            <ComponentRef Id="cmp8A5E58A5C3F65CDE567F77CBAA95D87D" />
+            <ComponentRef Id="cmpD89873EC53C2A3560FA8BBB29D4EF214" />
+            <ComponentRef Id="cmp74515A4CD57ADD07D08BA583B0AE70B4" />
+            <ComponentRef Id="cmp967E854AB3BB6AE7B7E95DBD2AB596C9" />
+            <ComponentRef Id="cmpCE223A1C8FE96D9AF83F6818E2A2F36A" />
+            <ComponentRef Id="cmpA0190484F9CBDC518B85D7D9DBF315AD" />
+            <ComponentRef Id="cmpB5463F8410FC165170215303D0864B08" />
+            <ComponentRef Id="cmp53EBBA2366F8AB0528B2E3499348A0E1" />
+            <ComponentRef Id="cmpD4E763A019A5277509EA82A792122FB3" />
+            <ComponentRef Id="cmpC6D4CD7EEB1C04C5A45CB4F0820E4CFF" />
+            <ComponentRef Id="cmp3CF83B00ED65FD586EA4C13C240445C6" />
+            <ComponentRef Id="cmpC786B93B2F86B398DF27C05086CCF452" />
+            <ComponentRef Id="cmp872B9796BEE77F9B4E7536C18E4E26B3" />
+            <ComponentRef Id="cmp61B8402144DC12C03B3947D96253F077" />
+            <ComponentRef Id="cmp5781A9DF30903EB1E6FAD8372700CEA4" />
+            <ComponentRef Id="cmpBAAA7D4699E7511016E1C86394D24EAC" />
+            <ComponentRef Id="cmp7FAFA0B4ECBC6764E2B981D6609630E6" />
+            <ComponentRef Id="cmpB22F1E1892FB8533613E6A88D3B378A6" />
+            <ComponentRef Id="cmpA02E15CA378E6C66565A2B636C860827" />
+            <ComponentRef Id="cmp42CF42B9C8FE5D59DD4F69B45C0C01E0" />
+            <ComponentRef Id="cmp5EF22BFE485C69DC44A4BD8290CAB2E4" />
+            <ComponentRef Id="cmp1609D4D522135BC5504D759FB972F55D" />
+            <ComponentRef Id="cmpC9CC16D5BACEBD4015DA160A3BC606D4" />
+            <ComponentRef Id="cmp0E367C79BC55252E5561439E96A70390" />
+            <ComponentRef Id="cmpE71270D2E1732C8E453F5B24BC7A6A65" />
+            <ComponentRef Id="cmpCA693B3F23190D159070DE9023F99369" />
+            <ComponentRef Id="cmp9029FEC3EA4203E3CB50922F18B18DD3" />
+            <ComponentRef Id="cmp0B48A5E268B3B900DDA9AD8C880EB007" />
+            <ComponentRef Id="cmp60115A63DD7895491F0BB016E72A5766" />
+            <ComponentRef Id="cmpAF67F397C8115118D1FEEEA973E2221B" />
+            <ComponentRef Id="cmpE8E38B53BCF651671914806EB1B6F898" />
+            <ComponentRef Id="cmp81593FA8DEBEBA745B3CC7DAB22C1949" />
+            <ComponentRef Id="cmp8F5E860093591647C9453FB342627CB8" />
+            <ComponentRef Id="cmpB950BB6259144FF7C75712DEEDEBB2D3" />
+            <ComponentRef Id="cmpD6EA5BD7925036FA32BCC2983BB4E2D3" />
+            <ComponentRef Id="cmp43A20503BAEBF26F9288C6CDBDEE6A00" />
+            <ComponentRef Id="cmp7A3799C24BEB0004E9505BFC74B78B43" />
+            <ComponentRef Id="cmp63EC5C6FFCF36CF604A9555D198F124B" />
+            <ComponentRef Id="cmp7C6602D4D606D46A6638DFE4AE483068" />
+            <ComponentRef Id="cmpD8E0B272F4B36E5C912F8381EFD58E06" />
+            <ComponentRef Id="cmpA0ABA4883EAB7F246C43F6B7E4311047" />
+            <ComponentRef Id="cmp82B37C1F42D2AE23407109643F39A8DD" />
+            <ComponentRef Id="cmp4808F641F46897F9458DD9DFCDBE09A9" />
+            <ComponentRef Id="cmp627A76B0BA2BDA27026F3C61FD905C3E" />
+            <ComponentRef Id="cmpA1B914D073FDAA7AEEDF22F0CB50D1BA" />
+            <ComponentRef Id="cmp0A756DD1A852998922B88C04BD95F027" />
+            <ComponentRef Id="cmp520FA912F513DFC3E8C0271CEBD7F448" />
+            <ComponentRef Id="cmp05A0A343E6385DA73DDA0680067F582F" />
+            <ComponentRef Id="cmp693E8C260DD1D9A5FA63397E5E96BD50" />
+            <ComponentRef Id="cmp38FFF9F2A269193AA9E9A3BF4994B962" />
+            <ComponentRef Id="cmpBB18F118064915D158688A4482166C05" />
+            <ComponentRef Id="cmp00B1A98B0B029C09002229AB04D5DC1C" />
+            <ComponentRef Id="cmpE73B89006A0735962771DBC45FFF6840" />
+            <ComponentRef Id="cmpD712A1F323A53FB9A0858DFC842ECD84" />
+            <ComponentRef Id="cmpA81D437B1BF35FC049A03F6DBB0A0D1B" />
+            <ComponentRef Id="cmp2967ADAA9CF017CB8C9196158509B3F7" />
+            <ComponentRef Id="cmp180E4AD2C05AC56EFDF49504FA9CB2C5" />
+            <ComponentRef Id="cmp44090FB5606451409EEE1E0996AA5E73" />
+            <ComponentRef Id="cmpE091787A48763D22D64009F26279C087" />
+            <ComponentRef Id="cmpFED70B3F945BE6708476294357BA3787" />
+            <ComponentRef Id="cmp12323059748C87792C706210BFDCD8C5" />
+            <ComponentRef Id="cmpCE78E28C29FAB111C3F5FC82192B1881" />
+            <ComponentRef Id="cmp803274B704F4159AF9D722C0DDFBE877" />
+            <ComponentRef Id="cmp236C697FF081A95F438F4BB971C211A3" />
+            <ComponentRef Id="cmp311C0F446E0EFC95C8613CA126C52C20" />
+            <ComponentRef Id="cmpCBE1CFE52F587362D1D98E29B2DC03D7" />
+            <ComponentRef Id="cmpB280BD5C8CC1592A4154758343EFB056" />
+            <ComponentRef Id="cmpF92BBFA3A95580CB12A61D8FA6CF7CCB" />
+            <ComponentRef Id="cmp6BF04BE51895A71635120BAB3A1B5E64" />
+            <ComponentRef Id="cmp41BEA15445A7F20EAB905D3EA14BE4CB" />
+            <ComponentRef Id="cmpA89EAE958B185A6F657A9E1056C0633A" />
+            <ComponentRef Id="cmp9B0FEBE3EA5F756BDA32C8E010989440" />
+            <ComponentRef Id="cmp715488801B08623DB65F78EF0DD08F8B" />
+            <ComponentRef Id="cmp6324F11E104260883E62207A830E3DE9" />
+            <ComponentRef Id="cmp764B69E998F52D69EA2E0D429ADC13C0" />
+            <ComponentRef Id="cmpB4BA8C7AF33BFF649D820838C0B79826" />
+            <ComponentRef Id="cmpABBB70DBEF632D39EB0B81988E52599A" />
+            <ComponentRef Id="cmp5E89BEEA9144CE236859143BF63C07CB" />
+            <ComponentRef Id="cmp3BBA36DDF447903023756927121C18B3" />
+            <ComponentRef Id="cmpBE6FFDAC48B753EE29DEFC5D9A1752D7" />
+            <ComponentRef Id="cmp0E8E539E26426C17D91CC268E5A8651F" />
+            <ComponentRef Id="cmpE22B948FE7C53F0AD9D871F555771357" />
+            <ComponentRef Id="cmp53E11881BF26295E83932933739529C0" />
+            <ComponentRef Id="cmp3CA30D5573BA204DA45A2711D25D9382" />
+            <ComponentRef Id="cmp680B8719BD8F171C91C8B57C6512685B" />
+            <ComponentRef Id="cmpD9B6BB8C8043EB72539E8D2F29FF30BE" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>
