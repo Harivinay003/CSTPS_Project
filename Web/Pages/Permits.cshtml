@@ -1,0 +1,1039 @@
+﻿@page
+@model VirtualEMS.Web.Pages.PermitsModel
+@{
+    ViewData["Title"] = "Permits";
+    ViewData["Page"] = "4";
+}
+<style >
+    .controlpanel {
+        position: absolute;
+        right: -350px;
+        top: auto;
+        height: 88%;
+        width: 330px;
+        border-top-left-radius: 5px;
+        box-shadow: 5px 3px 15px #9e9e9e;
+        transition: all 0.5s ease;
+        z-index: 101;
+    }
+        .controlpanel.show {
+            right: 0px;
+        }
+        .controlpanel .header {
+            background-color: #dedede;
+            border-top: solid 5px #008CE3;
+            border-bottom: solid rgba(0,0,0,0.3) 1px;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            font-size: 20px;
+            margin: 0px 0px 5px 0px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            padding-left: 10px;
+        }
+    /* caret rotate for expanded/collapsed state */
+    .nav-link .fa-caret-right {
+        transition: transform .2s ease;
+    }
+    .nav-link:not(.collapsed) .fa-caret-right {
+        transform: rotate(90deg);
+    }
+    #content {
+        border-radius: 10px;
+        border: solid rgba(0,0,0,0.15) 1px;
+        border-top: solid black 4px;
+        padding: 12px 0px;
+        margin-bottom: 15px;
+        margin-right: 5px;
+        min-height: 85vh;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .analytics-layout {
+        width: 100%;
+        flex: 1;
+        background: #f5f6fa;
+      
+        min-height: 85vh;
+        margin: 0;
+    }
+    .page-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #1E293B;
+    }
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(6,1fr);
+        gap: 18px;
+        margin-top: 20px;
+        margin-bottom: 25px;
+    }
+    .summary-card {
+        background: #fff;
+        border: 1px solid #E4E7EC;
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.06);
+        transition: .25s;
+        min-height: 115px;
+    }
+        .summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,.08);
+        }
+    .summary-title {
+        color: #667085;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .summary-value {
+        margin-top: 18px;
+        font-size: 34px;
+        font-weight: 700;
+        color: black;
+    }
+    .summary-sub {
+        font-size: 12px;
+        color: #98A2B3;
+    }
+    .panel {
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #E4E7EC;
+        box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        margin-bottom: 24px;
+    }
+    .panel-header {
+        padding: 18px 24px;
+        border-bottom: 1px solid #ECECEC;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .panel-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #344054;
+    }
+    .legend {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        font-size: 13px;
+    }
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .legend-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    .green {
+        background: #16A34A;
+    }
+    .red {
+        background: red;
+    }
+    @@media(max-width:1500px) {
+        .summary-grid {
+            grid-template-columns: repeat(3,1fr);
+        }
+    }
+    @@media(max-width:900px) {
+        .summary-grid {
+            grid-template-columns: repeat(2,1fr);
+        }
+    }
+    @@media(max-width:600px) {
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .permit-grid {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(75px,1fr));
+        gap: 12px;
+    }
+    .conveyor-card {
+        height: 58px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: .25s;
+        color: #fff;
+        user-select: none;
+    }
+        .conveyor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,.12);
+        }
+    .conveyor-available {
+        background: #16A34A;
+    }
+    .conveyor-electrical {
+        background: #DC2626;
+    }
+    .conveyor-mechanical1 {
+        background: #EA580C;
+    }
+    .conveyor-mechanical2 {
+        background: #F59E0B;
+    }
+    .conveyor-operation {
+        background: #2563EB;
+    }
+    .conveyor-permit {
+        background: #7C3AED;
+    }
+    .conveyor-selected {
+        outline: 3px solid #2563EB;
+        outline-offset: 2px;
+    }
+    .history-panel {
+        background: #fff;
+        border: 1px solid #E4E7EC;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+    .history-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        border-bottom: 1px solid #ECECEC;
+    }
+    .history-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #344054;
+    }
+    .history-sub {
+        color: #667085;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+    .status-badge {
+        padding: 8px 18px;
+        border-radius: 20px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    .status-open {
+        background: red;
+    }
+    .status-close {
+        background: #16A34A;
+    }
+    .history-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+        .history-table th {
+            background: #F8FAFC;
+            padding: 14px;
+            border-bottom: 1px solid #E5E7EB;
+            font-size: 13px;
+            color: #667085;
+            text-align: left;
+        }
+        .history-table td {
+            padding: 14px;
+            border-bottom: 1px solid #ECECEC;
+            font-size: 14px;
+        }
+        .history-table tbody tr:hover {
+            background: #F9FAFB;
+        }
+    .modal-content {
+        border: none;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 25px 70px rgba(0,0,0,.18);
+    }
+    .modal-header {
+        background: #ffffff;
+        border-bottom: 1px solid #ECEFF5;
+        padding: 22px 28px;
+    }
+    .modal-body {
+        padding: 26px 28px;
+        background: #FAFBFD;
+    }
+    .history-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        padding: 12px 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+    }
+    .filter-group, .status-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .history-filter {
+        border: none;
+        outline: none;
+        padding: 7px 14px;
+        border-radius: 30px;
+        background: #fff;
+        border: 1px solid #d6d9de;
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        transition: .2s;
+        cursor: pointer;
+    }
+        .history-filter:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0,0,0,.08);
+        }
+        .history-filter.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+        .history-filter.electrical.active {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+        .history-filter.mechanical1.active {
+            background: #ea580c;
+            border-color: #ea580c;
+        }
+        .history-filter.mechanical2.active {
+            background: #f59e0b;
+            color: #222;
+            border-color: #f59e0b;
+        }
+        .history-filter.operation.active {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        .history-filter.active-status.active {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+        .history-filter.closed-status.active {
+            background: #16a34a;
+            border-color: #16a34a;
+        }
+  .history-header-bar{
+    width:100%;
+    display:flex;      
+    align-items:center;
+    gap:18px;
+}
+.modal-title{
+    font-size:28px;
+    font-weight:600;
+    color:#1F2937;
+}    
+        .history-date label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748B;
+            margin: 0;
+        }
+    #historyDate {
+        width: 155px;
+        height: 36px;
+        border-radius: 8px;
+        border: 1px solid #D9DEE5;
+        font-size: 15px;
+    }
+#historyDate:focus{
+    box-shadow:none;
+}   
+    .history-date {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .date-field {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+        .date-field label {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748B;
+        }
+        .date-field input {
+            width: 145px;
+            height: 36px;
+            border: 1px solid #D9DEE5;
+            border-radius: 8px;
+            background: #F8FAFC;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 5px 9px;
+        }
+        .date-field input:focus {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+            } 
+    .conveyor-card {
+        position: relative;
+    }
+    .conveyor-tooltip {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 8px);
+        transform: translateX(-50%);
+        min-width: 170px;
+        padding: 10px 12px;
+        background: #1F2937;
+        color: #fff;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1.6;
+        text-align: left;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity .15s ease, transform .15s ease;
+        z-index: 1000;
+        box-shadow: 0 8px 20px rgba(0,0,0,.18);
+    }
+    .conveyor-card:hover .conveyor-tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(-2px);
+    }
+    .conveyor-tooltip-title {
+        font-weight: 700;
+        font-size: 12px;
+        margin-bottom: 4px;
+        color: #F8FAFC;
+    }
+    .conveyor-tooltip-type {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+    .conveyor-tooltip-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+</style>
+<div class="analytics-layout">   
+        <div class="container-fluid p-3" id="content">
+    @* <div class="d-flex justify-content-between align-items-center">
+        <div class="page-title">
+            Permit Dashboard
+        </div>       
+    </div> *@
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-title"> Availability </div>
+                    <div class="summary-value text-success"  id="availabilityPercentage">
+                        Loading..
+                    </div>
+                    <div class="summary-sub"  id="availabilityText">
+                        0 of 0 available
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-title">
+                    Active Permits Now
+                    </div>
+                    <div class="summary-value"
+                         id="underPermitCount">
+                        0
+                    </div>
+                    <div class="summary-sub">
+                        Live count
+                    </div>
+                </div>
+            <div class="summary-card">
+                <div class="summary-title">
+                    Permit Hours Today
+                </div>
+                <div class="summary-value"
+                     id="todayPermitHours">
+                    Loading..
+                </div>
+                <div class="summary-sub"
+                     id="todayPermitHoursText">
+                   
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-title">
+                    Highest Permit Volume
+                </div>
+                <div class="summary-value"
+                     id="highestPermitArea">
+                    -
+                </div>
+                <div class="summary-sub" id="highestPermitCount">
+                    0 permits this month
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-title">
+                    Longest Open Permit
+                </div>
+                <div class="summary-value"
+                     id="longestPermitHours">
+                    Loading..
+                </div>
+                <div class="summary-sub"
+                     id="longestPermitName">
+                    -
+                </div>
+            </div>
+            </div>
+    <div class="panel">
+        <div class="panel-header">
+            <div class="panel-title">
+                Conveyor Permit Status
+            </div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#16A34A"></div>
+                        Clear
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#7C3AED"></div>
+                        Permit
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#DC2626"></div>
+                        Electrical
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#EA580C"></div>
+                        Mechanical-01
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#F59E0B"></div>
+                        Mechanical-02
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#2563EB"></div>
+                        Operation
+                    </div>
+                </div>
+        </div>
+        <div class="permit-grid" id="conveyorContainer">
+        </div>
+    </div>
+         <div class="row mt-4">
+                <div class="col-md-7">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                Permit Hours - Last 7 Days
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <div id="permitTrendChart" style="height:320px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                Top 5 Conveyors
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <div id="topPermitChart" style="height:320px;"></div>
+                        </div>
+                    </div>
+                </div>
+         </div>
+  </div>
+</div>
+
+<div class="modal fade"
+     id="permitModal"
+     tabindex="-1" >
+    <div class="modal-dialog modal-xl modal-dialog-centered"
+         style="max-width:1300px;">
+            <div class="modal-content">     
+            <div class="modal-header d-flex justify-content-between align-items-center">
+                <h5 class="modal-title mb-0" id="permitModalTitle">
+                    Permit History
+                </h5>
+                <div class="history-date">
+                    <div class="date-field">
+                        <label for="historyFromDate">From</label>
+                        <input type="date"
+                               id="historyFromDate"
+                               class="form-control">
+                    </div>
+                    <div class="date-field">
+                        <label for="historyToDate">To</label>
+                        <input type="date"
+                               id="historyToDate"
+                               class="form-control">
+                    </div>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+            </div>
+            <div class="history-toolbar">
+                <div class="filter-group">
+                    <button class="history-filter active all" data-type="All">
+                        <i class="bi bi-grid"></i> All
+                    </button>
+                    <button class="history-filter electrical" data-type="1">
+                         Electrical
+                    </button>
+                    <button class="history-filter mechanical1" data-type="2">
+                        Mechanical-01
+                    </button>
+                    <button class="history-filter mechanical2" data-type="3">
+                         Mechanical-02
+                    </button>
+                    <button class="history-filter operation" data-type="4">
+                         Operation
+                    </button>
+                </div>
+                <div class="status-group">
+                    <button class="history-filter status active-status"
+                            data-status="Active">
+                        Active
+                    </button>
+                    <button class="history-filter status closed-status"
+                            data-status="Closed">
+                        Closed
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Permit</th>
+                            <th>Work Type</th>
+                            <th>Issued</th>
+                            <th>Cleared</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="permitHistory">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    let selectedFieldDeviceId = 0;
+    let userSelectedConveyor = false;
+    let currentPermitType = "All";
+    let currentStatus = "All";
+    function loadDashboard() {
+        $.getJSON("?handler=PermitDashboard", function(data) {
+            $("#availabilityPercentage").text(data.fleetAvailability + "%");
+            $("#availabilityText").text(data.clearConveyors + " of " + data.totalConveyors + " available");
+            $("#underPermitCount").text(data.activePermits);
+            $("#todayPermitHours").text(data.permitHoursToday + " hrs");
+            $("#highestPermitArea").text(data.highestPermitType);
+            $("#highestPermitCount").text(data.highestPermitCount + " Active");
+            $("#longestPermitHours").text(data.longestOpenHours + " hrs");
+            $("#longestPermitName").text(data.longestOpenConveyor + " (" + data.longestOpenType + ")");
+            $("#conveyorContainer").empty();
+            data.conveyors.forEach(function(item) {
+                let permits = [];
+                if (item.electrical) {
+                    permits.push({
+                        key: "E",
+                        name: "Electrical",
+                        color: "#DC2626"
+                    });
+                }
+                if (item.mechanical1) {
+                    permits.push({
+                        key: "M1",
+                        name: "Mechanical-01",
+                        color: "#EA580C"
+                    });
+                }
+                if (item.mechanical2) {
+                    permits.push({
+                        key: "M2",
+                        name: "Mechanical-02",
+                        color: "#F59E0B"
+                    });
+                }
+                if (item.operation) {
+                    permits.push({
+                        key: "O",
+                        name: "Operation",
+                        color: "#2563EB"
+                    });
+                }
+                let cls = "conveyor-available";
+                let background = "";
+                if (permits.length === 0) {
+
+                    if (item.mainPermit) {
+                        cls = "conveyor-permit";
+                    }
+                }
+                else if (permits.length === 1) {
+                    cls = "conveyor-card";
+                    background = permits[0].color;
+                }
+                else if (permits.length >= 2) {
+                    cls = "conveyor-card";
+                    const sectionWidth = 100 / permits.length;
+                    let stops = [];
+                    permits.forEach((permit, index) => {
+                        const start = index * sectionWidth;
+                        const end = (index + 1) * sectionWidth;
+                        stops.push(
+                            `${permit.color} ${start}%`,
+                            `${permit.color} ${end}%`
+                        );
+                    });
+                    background = `linear-gradient( to right, ${stops.join(", ")} )`;
+                }
+                let tooltip = "";
+                if (permits.length > 0) {
+                    tooltip = ` <div class="conveyor-tooltip">
+                    <div class="conveyor-tooltip-title">
+                        Active Permits
+                    </div>
+                    ${permits.map(p => `
+                        <div class="conveyor-tooltip-type">
+                            <span class="conveyor-tooltip-dot"
+                                  style="background:${p.color}">
+                            </span>
+                            ${p.name}
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+                }
+                else if (item.mainPermit) {
+                    tooltip = `<div class="conveyor-tooltip">
+                    <div class="conveyor-tooltip-title">
+                        Active Permit
+                    </div>
+                    <div class="conveyor-tooltip-type">
+                        <span class="conveyor-tooltip-dot"
+                              style="background:#7C3AED">
+                        </span>
+                        Permit
+                    </div>
+                </div>
+            `;
+                }
+                let card = $(`
+            <div class="conveyor-card ${cls}"
+                 data-id="${item.fieldDeviceId}">
+                ${item.name}
+                ${tooltip}
+            </div>
+        `);
+                if (background) {
+                    card.css("background", background);
+                }
+                card.click(function() {
+                    userSelectedConveyor = true;
+                    $(".conveyor-card").removeClass("conveyor-selected");
+                    $(this).addClass("conveyor-selected");
+                    selectedFieldDeviceId = item.fieldDeviceId;
+                    $("#permitModalTitle").text(item.name + " - Permit History");
+                    const today = new Date().toISOString().split("T")[0];
+                    $("#historyFromDate").val(today);
+                    $("#historyToDate").val(today);
+                    currentPermitType = "All";
+                    currentStatus = "All";
+                    $(".history-filter").removeClass("active");
+                    $('.filter-group .history-filter[data-type="All"]').addClass("active");
+                    loadPermitHistory();
+                    $("#permitModal").modal("show");
+                });
+                $("#conveyorContainer").append(card);
+            });
+           if (userSelectedConveyor) {
+                let selected = $("#conveyorContainer .conveyor-card[data-id='" + selectedFieldDeviceId + "']");
+                if (selected.length) {
+                    selected.addClass("conveyor-selected");
+                }
+            }
+        });
+    }
+    function getPermitTypeName(type) {
+        switch (type) {
+            case 1:
+                return '<span class="badge bg-danger">Electrical</span>';
+            case 2:
+                return '<span class="badge bg-warning text-dark">Mechanical-01</span>';
+            case 3:
+                return '<span class="badge bg-warning">Mechanical-02</span>';
+            case 4:
+                return '<span class="badge bg-primary">Operation</span>';
+            default:
+                return '<span class="badge bg-secondary">Permit</span>';
+        }
+    }
+    function loadPermitHistory() {
+        $.getJSON(
+            "?handler=PermitHistory",
+            {
+                fieldDeviceId: selectedFieldDeviceId,
+                fromDate: $("#historyFromDate").val(),
+                toDate: $("#historyToDate").val()
+            },
+            function(data) {
+                let tbody = $("#permitHistory");
+                tbody.empty();
+                if (data.length === 0) {
+                    tbody.append(`
+            <tr>
+                <td colspan="6"
+                    class="text-center" >
+                    No permit history found for <b>${$("#permitModalTitle").text().replace(" - Permit History", "")}</b>.
+                </td>
+            </tr>
+        `);
+                    return;
+                }
+                let activePermit = false;
+                let filtered = data;
+                if (currentPermitType !== "All") {
+                    filtered = filtered.filter(x => x.permitType == Number(currentPermitType));
+                }
+                if (currentStatus !== "All") {
+                    filtered = filtered.filter(x => x.status == currentStatus);
+                }
+                if (filtered.length === 0) {
+                    tbody.append(`
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    No permits found for the selected filters.
+                </td>
+            </tr>
+        `);
+                    return;
+                }
+                filtered.forEach(function(p) {
+                    if (p.status === "Active") {
+                        activePermit = true;
+                    }
+              let statusBadge = p.status === "Active" ? '<span class="badge bg-danger">Active</span>' : '<span class="badge bg-success">Closed</span>';
+                    tbody.append(`
+    <tr>
+         <td>${p.permitName}</td>
+    <td>${getPermitTypeName(p.permitType)}</td>
+    <td>${formatDate(p.issuedTime)}</td>
+    <td>${p.clearedTime ? formatDate(p.clearedTime) : "-"}</td>
+    <td>${p.duration}</td>   
+    <td>${statusBadge}</td>
+    </tr>
+    `);
+                });
+            });
+    }
+    function loadPermitTrend() {
+        $.getJSON("?handler=PermitTrend", function(data) {
+            let days = [];
+            let electrical = [];
+            let mechanical1 = [];
+            let mechanical2 = [];
+            let operation = [];
+            data.forEach(function(d) {
+                days.push(d.day);
+                electrical.push(d.electrical);
+                mechanical1.push(d.mechanical1);
+                mechanical2.push(d.mechanical2);
+                operation.push(d.operation);
+            });
+            Plotly.newPlot(
+                "permitTrendChart",
+                [
+                    {
+                        x: days,
+                        y: electrical,
+                        type: "bar",
+                        name: "Electrical",
+                        marker: {
+                            color: "#DC2626"
+                        }
+                    },
+                    {
+                        x: days,
+                        y: mechanical1,
+                        type: "bar",
+                        name: "Mechanical-01",
+                        marker: {
+                            color: "#EA580C"
+                        }
+                    },
+                    {
+                        x: days,
+                        y: mechanical2,
+                        type: "bar",
+                        name: "Mechanical-02",
+                        marker: {
+                            color: "#F59E0B"
+                        }
+                    },
+                    {
+                        x: days,
+                        y: operation,
+                        type: "bar",
+                        name: "Operation",
+                        marker: {
+                            color: "#2563EB"
+                        }
+                    }
+                ],
+                {
+                    barmode: "stack",
+                    margin: {
+                        l: 55,
+                        r: 20,
+                        t: 20,
+                        b: 40
+                    },
+                    xaxis: {
+                        title: "Day"
+                    },
+                    yaxis: {
+                        title: "Permit Hours"
+                    },
+                    legend: {
+                        orientation: "h",
+                        y: 1.15
+                    },
+                    paper_bgcolor: "#fff",
+                    plot_bgcolor: "#fff"
+                },
+                {
+                    responsive: true,
+                    displaylogo: false
+                });
+        });
+    }
+    function loadTopPermitChart() {
+        $.getJSON("?handler=TopConveyors", function(data) {
+            let y = [];
+            let x = [];
+            data.forEach(function(d) {
+                y.push(d.name);
+                x.push(d.totalHours);
+            });
+            Plotly.newPlot(
+                "topPermitChart",
+                [{
+                    type: "bar",
+                    orientation: "h",
+                    y: y,
+                    x: x,
+                    marker: {
+                        color: "#F59E0B"
+                    }
+                }],
+                {
+                    margin: {
+                        l: 80,
+                        r: 20,
+                        t: 20,
+                        b: 40
+                    },
+                    xaxis: {
+                        title: "Hours"
+                    },
+                    yaxis: {
+                        autorange: "reversed"
+                    },
+                    showlegend: false,
+                    paper_bgcolor: "#fff",
+                    plot_bgcolor: "#fff"
+                },
+                {
+                    responsive: true,
+                    displaylogo: false
+                });
+        });
+    }
+    function refreshDashboard() {
+        let previous = selectedFieldDeviceId;
+        loadDashboard();
+        if (previous > 0) {
+            selectedFieldDeviceId = previous;
+            loadPermitHistory();
+        }
+    }
+    function formatDate(dateString) {
+        let d = new Date(dateString);
+        return d.toLocaleString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+    }
+    $(document).ready(function() {
+        loadDashboard();
+        loadPermitTrend();
+        loadTopPermitChart();
+
+        $(document).on("click", ".history-filter", function() {
+            $(".history-filter").removeClass("active");
+            $(this).addClass("active");
+            currentPermitType = $(this).data("type") || "All";
+            currentStatus = $(this).data("status") || "All";
+            loadPermitHistory();
+        });
+        $('#permitModal').on('hidden.bs.modal', function() {
+            currentPermitType = "All";
+            currentStatus = "All";
+            $(".history-filter").removeClass("active");
+            $('.history-filter[data-type="All"]').addClass("active");
+        });
+        $("#historyDate").on("change", function() {
+            loadPermitHistory();
+        });
+        $("#historyFromDate, #historyToDate").on("change", function() {
+            const from = $("#historyFromDate").val();
+            const to = $("#historyToDate").val();
+            if (from && to && from > to) {
+                alert("From date cannot be later than To date.");
+                return;
+            }
+            loadPermitHistory();
+        });
+        setInterval(function() {
+            refreshDashboard();
+            loadPermitTrend();
+            loadTopPermitChart();
+        }, 60000);
+    });
+</script>

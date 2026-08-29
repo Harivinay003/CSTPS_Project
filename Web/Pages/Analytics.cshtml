@@ -1,0 +1,1907 @@
+﻿@page
+@model VirtualEMS.Web.Pages.AnalyticsModel
+@{
+    ViewData["Title"] = "Analytics";
+    ViewData["Page"] = "3";
+}
+<style type="text/css"> 
+    .controlpanel {
+        position: absolute;
+        right: -350px;
+        top: auto;
+        height: 88%;
+        width: 330px;
+        border-top-left-radius: 5px;
+        box-shadow: 5px 3px 15px #9e9e9e;
+        transition: all 0.5s ease;
+        z-index: 101;
+    }
+        .controlpanel.show {
+            right: 0px;
+        }
+        .controlpanel .header {
+            background-color: #dedede;
+            border-top: solid 5px #008CE3;
+            border-bottom: solid rgba(0,0,0,0.3) 1px;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            font-size: 20px;
+            margin: 0px 0px 5px 0px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            padding-left: 10px;
+        }
+        /* caret rotate for expanded/collapsed state */
+    .nav-link .fa-caret-right {
+        transition: transform .2s ease;
+    }
+    .nav-link:not(.collapsed) .fa-caret-right {
+        transform: rotate(90deg);
+    }
+    #content {
+        /* background: linear-gradient(90deg,#ffffff,#f7f7f7); */
+        border-radius: 10px;
+        border: solid rgba(0,0,0,0.15) 1px;
+        border-top: solid black 4px;
+        padding: 12px 0px;
+        margin-bottom: 15px;
+        margin-right: 5px;
+        min-height: 85vh;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .dashboard-card {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: #fff;
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: 0.3s ease;
+        border-left: 5px solid;
+        min-height: 120px;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .run-card {
+        border-color: #3498db;
+    }
+    .energy-card {
+        border-color: #f39c12;
+    }
+    .alarm-card {
+        border-color: #e74c3c;
+    }
+    .trip-card {
+        border-color: #9b59b6;
+    }
+    .card-icon {
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        background: rgba(0,0,0,0.05);
+    }
+    .card-title {
+        font-size: 15px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+    .card-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #222;
+        line-height: 1.2;
+    }
+    .card-sub {
+        font-size: 13px;
+        color: #999;
+    }
+    .graph-container {
+        background: #fff;
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .graph-title {
+        font-weight: 600;
+        margin: 0;
+    }
+    .graph-live {
+        font-size: 14px;
+        color: #666;
+    }
+    .permit-card {
+        border-color: #16a085;
+        min-height: 320px;
+    }
+    .permit-list {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .permit-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: rgba(0,0,0,0.03);
+        margin-bottom: 8px;
+        font-size: 14px;
+        transition: 0.2s ease;
+    }
+    .permit-item:hover {
+        background: rgba(0,0,0,0.06);
+    }
+    .analytics-layout {
+        display: flex;
+        width: 100%;
+        min-height: 90vh;
+        align-items: flex-start;
+    }
+    .sidenavbar {
+        width: 260px;
+        min-width: 260px;
+        background: #fff;
+        border-right: 1px solid rgba(0,0,0,0.08);
+        z-index: 10;
+    }
+    #main-content {
+        flex: 1;
+        background: #f5f6fa;
+        overflow-x: auto;
+        min-height: 85vh;
+        margin-right: 270px;
+        margin-left: 0px;
+    }
+    #main-content [class*="col-"] {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .kpi-card-col {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .graph-card {
+        min-height: 430px;
+        padding: 25px;
+    }
+    .graph-body {
+        width: 100%;
+        height: 340px;
+    }
+    #currentChart {
+        width: 100%;
+        height: 340px;
+    }
+    body {
+        overflow-x: hidden;
+    }
+    #currentChart .modebar {
+        top: -60px !important; /* move upward */
+        right: 10px !important; /* move right */
+        background: transparent !important;
+        display: none;
+    }
+    .toggle-group {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+    }
+    .toggle-btn {
+        padding: 8px 22px;
+        border: none;
+        border-radius: 24px;
+        background: #f2f5f9;
+        color: #5f6b7a;
+        font-size: 13px;
+        font-weight: 600;
+        transition: .25s;
+        cursor: pointer;
+    }
+        .toggle-btn:hover {
+            background: #dceeff;
+            color: #008CE3;
+        }
+        .toggle-btn.active {
+            background: #008CE3;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,140,227,.25);
+        }
+    .device-info-card {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-left: 14px;
+        /* margin-bottom: 10px; */
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 16px 22px;
+        min-width: 260px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        border-left: 5px solid #00b894;
+    }
+    .device-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #00b894;
+        box-shadow: 0 0 10px rgba(0,184,148,.5);
+    }
+    .device-name {
+        font-size: 22px;
+        font-weight: 700;
+        color: #222;
+    }
+    .device-status {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #00a651;
+        text-transform: uppercase;
+    }
+    .device-info-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+    .device-running {
+        color: #00a651;
+    }
+    .device-stopped {
+        color: #e53935;
+    }
+    .device-dot.running {
+        background: #00a651;
+    }
+    .device-dot.stopped {
+        background: #e53935;
+    }
+    .stat-box {
+        background: #F7F9FC;
+        border: 1px solid #E4E8EF;
+        border-radius: 12px;
+        padding: 14px;       
+        height: 110px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+        .stat-box small {
+            color: #9AA4B2;
+            font-size: 11px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .stat-box h2 {
+            margin-top: 8px;
+            font-weight: 700;
+            color: #202833;
+            font-size: 38px;
+            margin-top: 12px;
+        }
+    .timeline-title {
+        margin-bottom: 10px;
+        font-size: 13px;
+        letter-spacing: 2px;
+        color: #7B8794;
+    }
+    .timeline-box {
+        height: 34px;
+        background: #F3F5F8;
+        border: 1px solid #DDE3EC;
+        border-radius: 8px;
+        position: relative;
+    }
+    #runLogBody td {
+        font-size: 14px;
+        color: #4A5568;
+    }
+    .table thead th {
+        font-size: 12px;
+        color: #8A94A6;
+        letter-spacing: 1px;
+        border-bottom: 1px solid #E4E8EF;
+    }
+    .badge-running {
+        background: #DDF7E7;
+        color: #15803D;
+        border-radius: 20px;
+        padding: 4px 12px;
+    }
+    .badge-stop {
+        background: #E7F8EE;
+        color: #166534;
+        border-radius: 20px;
+        padding: 4px 12px;
+    }
+    .modal-content {
+        border: none;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 25px 70px rgba(0,0,0,.18);
+    }
+    .modal-header {
+        background: #ffffff;
+        border-bottom: 1px solid #ECEFF5;
+        padding: 22px 28px;
+    }
+    .modal-body {
+        padding: 26px 28px;
+        background: #FAFBFD;
+    }
+    .modal-footer {
+        border-top: 1px solid #ECEFF5;
+        background: #ffffff;
+    }
+    .btn-close {
+        transform: scale(.85);
+    }
+    .modal input[type=date],
+    .modal select {
+        height: 46px;
+        border-radius: 12px;
+        border: 1px solid #DCE3EC;
+        font-size: 15px;
+        box-shadow: none;
+    }
+        .modal input[type=date]:focus,
+        .modal select:focus {
+            border-color: #008CE3;
+            box-shadow: 0 0 0 .2rem rgba(0,140,227,.15);
+        }
+    .table {
+        border-radius: 14px;
+        overflow: hidden;
+        background: white;
+    }
+        .table thead {
+            background: #F4F7FB;
+        }
+            .table thead th {
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: #7B8794;
+                padding: 16px;
+            }
+        .table tbody td {
+            padding: 16px;
+            vertical-align: middle;
+        }
+    .table-hover tbody tr:hover {
+        background: #F7FBFF;
+    }
+    .modal.fade .modal-dialog {
+        transform: translateY(40px) scale(.96);
+        transition: .25s;
+    }
+    .modal.show .modal-dialog {
+        transform: none;
+    }
+    .modal-backdrop.show {
+        opacity: .45;
+        backdrop-filter: blur(4px);
+    }
+    #trendModal .modal-content {
+        border-radius: 22px;
+        border: none;
+        overflow: hidden;
+    }
+    #trendModal .modal-header {
+        padding: 20px 28px;
+        border-bottom: 1px solid #e9ecef;
+    }
+    #trendModal .modal-body {
+        padding: 20px 25px 25px;
+    }
+    #trendModal input[type="datetime-local"],
+    #trendModal select {
+        border-radius: 10px;
+        height: 42px;
+        border: 1px solid #d7dce2;
+    }
+    #trendModal .btn-primary {
+        height: 42px;
+        border-radius: 10px;
+        padding: 0 18px;
+    }
+    .run-progress {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: conic-gradient(#1db954 0deg,#e9edf3 0deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .6s ease;
+    }
+    .run-inner {
+        width: 54px;
+        height: 54px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+        .run-inner i {
+            font-size: 24px;
+            color: #444;
+        }
+    .runhours-card {
+        min-width: 240px;
+        padding: 14px 22px;
+        border-left: 5px solid #1E88E5;
+        margin-left: 15px;
+    }
+    .runhours-title {
+        font-size: 13px;
+        color: #7B8794;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .runhours-value {
+        margin-top: 4px;
+        font-size: 32px;
+        font-weight: 700;
+        color: #202833;
+        line-height: 1.1;
+    }
+    /* Active Alarm Animation */
+    .card-icon.active-alarm {
+        animation: alarmPulse 1.2s infinite;
+    }
+        .card-icon.active-alarm i {
+            color: #e53935;
+        }
+    @@keyframes alarmPulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(229,57,53,.6);
+        }
+        50% {
+            transform: scale(1.08);
+            box-shadow: 0 0 0 12px rgba(229,57,53,0);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(229,57,53,0);
+        }
+    }
+    /* Active Trip Animation */
+    .card-icon.active-trip {       
+        animation: tripPulse 1.2s infinite;
+    }
+        .card-icon.active-trip i {
+            color: #e53935;
+        }
+    @@keyframes tripPulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(229,57,53,.6);
+        }
+        50% {
+            transform: scale(1.08);
+            box-shadow: 0 0 0 12px rgba(229,57,53,0);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(229,57,53,0);
+        }
+    }  
+    /* Red notification dot */
+    .alert-dot {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        width: 10px;
+        height: 10px;
+        background: #ff0000;
+        border-radius: 50%;
+        display: none;
+        animation: dotBlink 1s infinite;
+    }
+    @@keyframes dotBlink {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: .3;
+            transform: scale(1.5);
+        }
+    }
+</style>
+<input id="ParentId" type="hidden" asp-for="ParentId" />
+<div class="sidenavbar show" id="leftbar">
+    @* <div class="header">
+        <h5 style="line-height: 40px;">Monitored Points<span id="leftclose" class="fa fa-caret-left"></span></h5>
+    </div> *@
+    <nav class="navbar nav-pills" id="sidebar">
+        <ul class="navbar-nav flex-column flex-grow-1">
+            <li class="nav-item">
+                <a href="#level-fielddevices"
+                       id="FieldDevices"
+                       class="nav-link parent"
+                       data-bs-toggle="collapse"
+                       role="button"
+                       aria-expanded="true"
+                       aria-controls="level-fielddevices">
+                    <i class="fa fa-caret-right me-2" aria-hidden="true"></i>
+                    <span>Equipments</span>
+                </a>
+                <div class="collapse show ms-3" id="level-fielddevices">
+                    <ul class="navbar-nav flex-column flex-grow-1">
+                        @foreach (var fieldDevice in Model.FieldDevices.OrderBy(f => f.Name))
+                        {
+                            <li class="nav-item">
+                                <a href="#" class="nav-link parent fielddevice" data-id="@fieldDevice.Id">
+                                    <span>@fieldDevice.Name</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="analytics-layout">
+    <div id="main-content" class="en-middle">
+        <div class="row ms-1" id = "content">
+        <div class="row mb-3 px-3">
+                <div class="col-12 d-flex align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div class="device-info-card">
+                            <div class="device-dot" id="deviceDot"></div>
+                            <div class="device-info">
+                                <div class="device-name" id="selectedDeviceName">
+                                    Loading..
+                                </div>
+                                <div class="device-status" id="deviceStatus">
+                                   Loading..
+                                </div>
+                            </div>
+                        </div>
+                        <div class="device-info-card runhours-card ms-3">
+                            <div class="device-info">
+                                <div class="runhours-title">
+                                    TOTAL RUN HOURS
+                                </div>
+                                <div class="runhours-value" id="currentRunHoursValue">
+                                   Loading..
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms-auto">
+                        <input type="date"
+                               id="selectedDate"
+                               class="form-control"
+                               style="width:180px;">
+                    </div>
+                </div>
+        </div>
+            <div class="row mx-1 mb-2">
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-3">                   
+                     <div class="dashboard-card run-card">
+                        <div class="run-progress" id="runProgress">
+                            <div class="run-inner">
+                                <i class="fa fa-clock"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="card-title">Run Hours</div>
+                            <div class="card-value" id="runHoursValue">Loading..</div>
+                            <div class="card-sub">Today's Runtime</div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-3">                   
+                    <div class="dashboard-card energy-card energy-clickable"
+                         onclick="openEnergyModal()">
+                        <div class="card-icon">
+                            <i class="fa fa-bolt"></i>
+                        </div>
+                        <div>
+                            <div class="card-title">Energy Consumption</div>
+                            <div class="card-value" id="energyValue">Loading..</div>
+                            <div class="card-sub">Daily Consumption</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
+                    <div class="dashboard-card alarm-card alarm-clickable"
+                         onclick="openAlarmModal()">
+                        <div class="card-icon position-relative" id="alarmIcon">
+                            <span class="alert-dot" id="alarmDot"></span>
+                            <i class="fa fa-bell"></i>
+                        </div>
+                        <div>
+                            <div class="card-title">Active Alarms</div>
+                            <div class="card-value" id="alarmValue">Loading..</div>
+                            <div class="card-sub">Today's Equipment Alarms</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
+                    <div class="dashboard-card trip-card trip-clickable" onclick="openTripModal()">
+                        <div class="card-icon position-relative" id="tripIcon">
+                            <span class="alert-dot" id="tripDot"></span>
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <div class="card-title">Active Trips</div>
+                            <div class="card-value" id="tripValue">Loading..</div>
+                            <div class="card-sub">Today's Equipment Trips</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mx-1 mb-4">
+                <div class="col-xl-12 col-lg-8 mb-3">
+                    <div class="dashboard-card graph-card flex-column align-items-start h-100">
+                        <div class="w-100 d-flex justify-content-between align-items-center mb-3">
+                            <div class="w-100 d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="graph-title mb-0" id="graphTitle">
+                                    Current Trends
+                                </h5>
+                                <div class="toggle-group ms-auto">
+                                    <button class="toggle-btn graph-mode active"
+                                            data-mode="current"
+                                            id="btnCurrent">
+                                        CURRENT (A)
+                                    </button>
+                                    <button class="toggle-btn graph-mode"
+                                            data-mode="power"
+                                            id="btnPower">
+                                        POWER (kW)
+                                    </button>
+                                    @* <button class="toggle-btn graph-mode"
+                                            data-mode="voltage"
+                                            id="btnVoltage">
+                                        VOLTAGE (V)
+                                    </button> *@
+                                </div>
+                            </div>
+                           <span class="graph-live">
+                            </span>
+                        </div>
+                        <div class="w-100 graph-body">
+                            <div id="currentChart"></div>
+                        </div>
+                    </div>
+                </div>
+            <div class="text-end">
+                   <small class="text-muted">Last Data Sync:</small>
+                   <strong id="lastSync"></strong>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Run Hours Modal -->
+<div class="modal fade"
+     id="runHoursModal"
+     tabindex="-1"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"
+         style="max-width:760px;">
+        <div class="modal-content shadow-lg rounded-4">
+            <div class="modal-header border-bottom">
+                <div>
+                    <h3 class="fw-bold mb-1">
+                        <span class="text-success me-2">●</span>
+                        Run Hours
+                    </h3>
+                    <small class="text-muted">
+                        <span id="runDeviceName"></span>
+                    </small>
+                </div>
+                <button class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-box">
+                            <small>TODAY'S RUNTIME</small>
+                            <h2 id="todayRunHours">0 Hrs</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box">
+                            <small>TOTAL RUN TIME</small>
+                            <h2 id="totalRunHours">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box">
+                            <small>NUMBER OF STARTS</small>
+                            <h2 id="startCount">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box">
+                            <small>SELECT DATE</small>
+                            <input type="date" id="runDate"
+                                   class="form-control border-0 shadow-none">
+                        </div>
+                    </div>                
+                </div>
+                @* <h6 class="mb-3">
+                    Run / Stop Timeline
+                </h6>
+                <div class="border rounded-3 bg-light timeline-box"
+                     style="height:40px;"
+                     id="runTimeline">
+                </div> *@
+                <hr>
+                <h6 class="mb-3">
+                    Runtime Log
+                </h6>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Start</th>
+                            <th>Stop</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="runLogBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@* energy modal *@
+<div class="modal fade"
+     id="energyModal"
+     tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered"
+         style="max-width:1200px;">
+        <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        Energy Consumption
+                        <span id="energyDeviceName" class="text-primary"></span>
+                    </h4>
+                    <div class="d-flex align-items-center gap-3">
+                        <input type="date"
+                               id="energyDate"
+                               class="form-control"
+                               style="width:180px;">
+                        <select id="energyDuration"
+                                class="form-select"
+                                style="width:150px;">
+                            <option value="shift">Shift</option>
+                            <option value="day">Day</option>
+                            <option value="week">Week</option>
+                            <option value="month">Month</option>
+                        </select>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div id="energyChart" style="height:600px;"></div>
+                </div>
+            </div>
+                <div id="energyChart"
+                     style="height:600px;">
+                </div>
+            </div>
+        </div>
+@* alarm modal *@
+<div class="modal fade"
+     id="alarmModal"
+     tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered"
+         style="max-width:1300px;">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">
+                    Alarm Details
+                    <span id="alarmDeviceName"
+                          class="text-primary"></span>
+                </h4>
+                <div class="d-flex align-items-center gap-3">
+                    <input type="date"
+                           id="alarmDate"
+                           class="form-control"
+                           style="width:180px;">
+                    <select id="alarmDuration"
+                            class="form-select"
+                            style="width:150px;">
+                        <option value="shift">Shift</option>
+                        <option value="day" selected>Day</option>
+                        <option value="week">Week</option>
+                        <option value="month">Month</option>
+                    </select>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tag Name</th>
+                                <th>Alarm Description</th>
+                                <th>Alarm ON Time</th>
+                                <th>Alarm OFF Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alarmTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* Trips modal *@
+<div class="modal fade"
+     id="tripModal"
+     tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered"
+         style="max-width:1300px;">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">
+                    Trip Details
+                    <span id="tripDeviceName"
+                          class="text-primary"></span>
+                </h4>
+                <div class="d-flex align-items-center gap-3">
+                    <input type="date"
+                           id="tripDate"
+                           class="form-control"
+                           style="width:180px;">
+                    <select id="tripDuration"
+                            class="form-select"
+                            style="width:150px;">
+                        <option value="shift">Shift</option>
+                        <option value="day" selected>Day</option>
+                        <option value="week">Week</option>
+                        <option value="month">Month</option>
+                    </select>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tag Name</th>
+                                <th>Trip Description</th>
+                                <th>Trip Time</th>
+                                <th>Reset Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tripTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* graph modal *@
+<div class="modal fade"
+     id="trendModal"
+     tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered"
+         style="max-width:1500px;">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+                <h4 id="trendTitle" class="mb-0">
+                    Current Trend
+                </h4>
+                <div class="d-flex align-items-center gap-3">
+                    <div>
+                        <label class="form-label mb-1 small text-muted">
+                            Parameter
+                        </label>
+                        <select id="selecttrend"
+                                class="form-select"
+                                style="width:150px;">
+                            <option value="current">Current</option>
+                            <option value="power">Power</option>
+                            @* <option value="voltage">Voltage</option> *@
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label mb-1 small text-muted">
+                            From
+                        </label>
+                        <input type="datetime-local"
+                               id="trendFrom"
+                               class="form-control"
+                               style="width:220px;">
+                    </div>
+                    <div>
+                        <label class="form-label mb-1 small text-muted">
+                            To
+                        </label>
+                        <input type="datetime-local"
+                               id="trendTo"
+                               class="form-control"
+                               style="width:220px;">
+                    </div>
+                    <div class="pt-4">
+                        <button class="btn btn-primary"
+                                id="btnTrendRefresh">
+                            <i class="fa fa-refresh me-2"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="trendModalChart"
+                     style="height:700px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> 
+<script>
+    var colorPalette = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
+    let selectedGraph = "current";
+    let selectedFieldDeviceId = 0;
+    var trendLayout = null;
+    (function () {
+    // Ensure Plotly is available, otherwise load from CDN, then render
+    function ensurePlotly() {
+    return new Promise(function (resolve, reject) {
+    if (window.Plotly) return resolve(window.Plotly);
+    var script = document.createElement('script');
+    // Load local Plotly bundle from wwwroot (offline use)
+    script.src = '@Url.Content("~/lib/plotly.js/plotly-basic.min.js")';
+    script.onload = function () { return resolve(window.Plotly); };
+    script.onerror = function (e) { return reject(new Error('Failed to load Plotly')); };
+    document.head.appendChild(script);
+    });
+    }
+      function ensureMinJS() {
+                return new Promise(function (resolve, reject) {
+                    if (window.jQuery) {
+                        return resolve(window.jQuery);
+                    }
+                    var script = document.createElement('script');
+                    script.src = '@Url.Content("~/lib/jquery-3.7.1.min.js")';
+                    script.onload = function () {
+                        resolve(window.jQuery);
+                    };
+                    script.onerror = function () {
+                        reject(new Error("Failed to load jQuery."));
+                    };
+                    document.head.appendChild(script);
+                });
+            }
+    
+         Promise.all([
+                ensureMinJS(),
+                ensurePlotly()
+            ])
+    .then(function () {
+        var trendTrace = {
+            x : [],
+            y: [],
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: 'Current (A)',
+            line: {
+                color: '#3498db',
+                width: 4,
+                shape: 'spline',
+                smoothing: 1.2
+            },
+            marker: {
+                color: '#3498db',
+                size: 7
+            },
+            fill: false,
+            fillcolor: 'rgba(52,152,219,0.15)',
+            hovertemplate: '<b>%{x}</b><br>' + 'Current: %{y} A<extra></extra>'
+        };
+        trendLayout = {
+            autosize: true,
+            height: 340,
+            margin: {
+                t: 10,
+                l: 55,
+                r: 20,
+                b: 60
+            },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            hovermode: 'x unified',
+            showlegend: true,
+            legend: {
+                orientation: 'h',
+                y: 1.12,
+                x: 0.35
+            },
+            xaxis: {
+                showgrid: false,
+                tickangle: 0,
+                tickfont: {
+                    size: 11
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Current (A)'
+                },                 
+                range: [0, 300],
+                tick0: 0,
+                gridcolor: 'rgba(0,0,0,0.06)',
+                zeroline: false,
+                tickfont: {
+                    size: 11
+                }
+            }
+        };
+        var config = {
+            responsive: true,
+            displayModeBar: true,
+            modeBarButtonsToRemove: [
+                'lasso2d',
+                'select2d'
+            ],
+            displaylogo: false
+        };
+
+        Plotly.newPlot(
+            'currentChart',
+            [trendTrace],
+            trendLayout,
+            config
+        );
+    })
+    .catch(function (err) {
+        console.error(err);
+    });
+    })();  
+
+    function updateTrendChart(trendTime, trendSeries, graphType) {
+
+        let traces = [];
+
+        trendSeries.forEach(function(series, index) {
+
+            traces.push({
+
+                x: trendTime,
+
+                y: series.values,
+
+                name: series.name,
+
+                type: 'scatter',
+
+                mode: 'lines',
+
+                line: {
+                    width: 3,
+                    color: colorPalette[index % colorPalette.length]
+                },
+
+                hovertemplate:
+                    '%{y:.2f}<extra>' +
+                    series.name +
+                    '</extra>'
+
+            });
+
+        });
+
+        Plotly.react(
+
+            'currentChart',
+
+            traces,
+
+            {
+
+                ...trendLayout,
+
+                showlegend: true,
+
+                legend: {
+                    orientation: 'h',
+                    y: 1.12,
+                    x: 0.3
+                },
+
+                xaxis: {
+                    showgrid: false,
+                    tickmode: 'auto',
+                    nticks: 24
+                },
+
+                yaxis: {
+                    title: {
+                        text:
+                            graphType === "current"
+                                ? "Current (A)"
+                                : graphType === "voltage"
+                                    ? "Voltage (V)"
+                                    : "Power (kW)"
+                    }
+                }
+
+            }
+
+        );
+
+    }
+    function updateLastSync() {
+    const now = new Date();
+
+    const options = {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+    };
+
+    $('#lastSync').text(now.toLocaleString('en-GB', options));
+    }
+    function loadDashboard(fieldDeviceId)
+    {
+    selectedFieldDeviceId = fieldDeviceId;
+        $.get(
+            '/Analytics?handler=FieldDeviceDashboard',
+            {
+                fieldDeviceId: fieldDeviceId,
+                graphType: selectedGraph,
+                selectedDate: $('#selectedDate').val()
+            })
+        .done(function(data){
+
+            $('#runHoursValue').text(data.runHours + ' Hrs');
+             updateRunProgress(data.runHours);
+            $('#currentRunHoursValue').text(data.currentRunHours + ' Hrs');
+            $('#energyValue').text(data.energyConsumption + ' kWh');
+            $('#alarmValue').text(data.alarmCount);
+            $('#tripValue').text(data.tripCount);
+           
+                // Alarm animation
+                if (data.alarmCount > 0) {
+                    $('#alarmIcon').addClass('active-alarm');
+                    $('#alarmDot').show();
+                } 
+                else {
+                    $('#alarmIcon').removeClass('active-alarm');
+                    $('#alarmDot').hide();
+                }
+                // Trip animation
+                if (data.tripCount > 0) {
+                    $('#tripIcon').addClass('active-trip');
+                    $('#tripDot').show();
+                } 
+                else {
+                    $('#tripIcon').removeClass('active-trip');
+                    $('#tripDot').hide();
+                }
+    updateLastSync();
+    $('#selectedDeviceName').text($('.fielddevice[data-id="' + selectedFieldDeviceId + '"]').text().trim());
+
+    if(data.isRunning){
+
+                    $('#deviceStatus')
+                        .text("RUNNING " + data.direction.toUpperCase())
+                        .removeClass("device-stopped")
+                        .addClass("device-running");
+
+    $('#deviceDot')
+    .removeClass("stopped")
+    .addClass("running");
+
+    }
+    else{
+
+    $('#deviceStatus')
+    .text("STOPPED")
+    .removeClass("device-running")
+    .addClass("device-stopped");
+
+    $('#deviceDot')
+    .removeClass("running")
+    .addClass("stopped");
+
+    }
+
+       updateTrendChart(data.trendTime, data.trendSeries,selectedGraph);
+
+    $('#graphTitle').text(data.graphTitle);
+ 
+        })
+        .fail(function(xhr){
+            console.log("AJAX ERROR");
+            console.log(xhr);
+        });
+    }
+    function updateRunProgress(runHours) {
+    let percent = (parseFloat(runHours) / 24) * 100;
+    percent = Math.min(percent, 100);
+    $('#runProgress').css('background',`conic-gradient(#1db954 ${percent * 3.6}deg, #e9edf3 0deg)` );
+    }
+    //Run Hours
+    function loadRunHours() {
+    $('#runLogBody').html(`
+    <tr>
+    <td colspan="4" class="text-center">
+    Loading...
+    </td>
+    </tr>
+    `);
+
+    $('#runTimeline').html("");
+
+    $.ajax({
+
+    url: '/Analytics',
+
+    type: 'GET',
+
+    data: {
+
+    handler: 'RunHours',
+
+    fieldDeviceId: selectedFieldDeviceId,
+
+    selectedDate: $('#runDate').val()
+
+    },
+
+    success: function (data) {
+
+    $('#todayRunHours').text(data.todayRunHours + ' Hrs');
+    $('#totalRunHours').text(data.totalRunHours);
+    $('#startCount').text(data.startCount);
+
+    // Timeline
+    $('#runTimeline').html(data.timelineHtml);
+    updateRunProgress(data.todayRunHours);
+    // Runtime Log
+    let tbody = $('#runLogBody');
+
+    tbody.empty();
+
+    if (!data.logs || data.logs.length === 0) {
+
+    tbody.append(`
+    <tr>
+    <td colspan="4" class="text-center">
+    No runtime found
+    </td>
+    </tr>
+    `);
+    return;
+    }
+    data.logs.forEach(function (log) {
+    tbody.append(`
+    <tr>
+    <td>${formatDate(log.onTime)}</td>
+    <td>${log.offTime ? formatDate(log.offTime) : '-'}</td>
+    <td>${log.runtime.toFixed(2)} Hrs</td>
+    <td>
+    <span class="${log.isRunning ? 'badge-running' : 'badge-stop'}">
+        ${log.isRunning ? `Running ${log.direction}` : `Stopped ${log.direction}`}
+    </span>
+    </td>
+    </tr>
+    `);
+    });
+    }
+    });
+    }
+
+    // energyConsumption js
+    function loadEnergyChart(type) {
+    $.ajax({
+    url: '/Analytics',
+    type: 'GET',
+    data: {
+    handler: 'EnergyData',
+    duration: type,
+    fieldDeviceId: selectedFieldDeviceId,
+    selectedDate: $('#energyDate').val()
+    },
+              success: function(data) {
+
+                const colorPalette = [
+                    "#3B82F6",
+                    "#10B981",
+                    "#F59E0B",
+                    "#EF4444",
+                    "#8B5CF6",
+                    "#06B6D4",
+                    "#EC4899",
+                    "#84CC16"
+                ];
+
+                let traces = [];
+
+                data.series.forEach(function(series, index) {
+                let displayName = series.name
+                    .replace("Conv_", "")
+                    .replace("_Energy_", " ")
+                    .replace("_Drv_", " Drive ");
+
+                    traces.push({
+
+                        x: data.xData,
+
+                        y: series.values,
+
+                        // name: series.name,
+                        name: displayName,
+                        type: 'bar',
+                        marker: {
+                            color: colorPalette[index % colorPalette.length]
+                        },
+                        text: series.values,  
+                        textposition: "none",
+                        hovertemplate:
+                            '<b>%{fullData.name}</b><br>' +
+                            'Time: %{x}<br>' +
+                            'Energy: %{y:.2f} kWh' +
+                            '<extra></extra>'
+                    });
+
+                });
+
+                var layout = {
+                    title: {
+                        text: type.toUpperCase() + ' Energy Consumption',
+                        x: 0.5,
+                        xanchor: 'center',
+                        y: 0.98,
+                        font: {
+                            size: 26
+                        }
+                    },
+
+                    barmode: 'group',
+
+                    xaxis: {
+                        title: 'Time',
+                        type: 'category'
+                    },
+
+                    yaxis: {
+                        title: 'Energy (kWh)'
+                    },
+
+                    legend: {
+                        orientation: "h",
+                        x: 0.5,
+                        xanchor: "center",
+                        y: 1.05
+                    },
+
+                    margin: {
+                        t: 120
+                    }
+                };
+
+                Plotly.react(
+                    'energyChart',
+                    traces,
+                    layout,
+                    {
+                        responsive: true,
+                        displaylogo: false
+                    }
+                );
+            }
+    });
+    }
+    function openEnergyModal() {
+    $('#energyDate').val($('#selectedDate').val());
+    $('#energyDuration').val('day');
+    $('#energyDeviceName').text($('#selectedDeviceName').text());
+    $('#energyModal').modal('show');
+    $('#energyModal').one('shown.bs.modal', function () {
+    loadEnergyChart($('#energyDuration').val());
+    });
+    }
+
+    // alarms JS
+    function openAlarmModal() {
+    $('#alarmDate').val($('#selectedDate').val());
+    $('#alarmDuration').val('day');
+    $('#alarmDeviceName').text($('#selectedDeviceName').text());
+    $('#alarmModal').modal('show');
+    $('#alarmModal').one('shown.bs.modal', function () {
+    loadAlarms();
+    });
+    }
+
+    function loadAlarms() {
+    $('#alarmTableBody').html('<tr><td colspan="5" class="text-center">Loading...</td></tr>');
+    $.ajax({
+    url: '/Analytics',
+    type: 'GET',
+    data: {
+    handler: 'AlarmDetails',
+    duration: $('#alarmDuration').val(),
+    fieldDeviceId: selectedFieldDeviceId,
+    selectedDate: $('#alarmDate').val()
+    },
+    success: function (data) {
+
+    let tbody = $('#alarmTableBody');
+
+    tbody.empty();
+
+    if (!data || data.length === 0) {
+    tbody.append(`
+    <tr>
+    <td colspan="5" class="text-center">
+    No alarms found
+    </td>
+    </tr>
+    `);
+    return;
+    }
+
+    data.forEach(function (alarm) {
+    let statusBadge = alarm.status === "Active"? '<span class="badge bg-danger">Active</span>': '<span class="badge bg-success">Cleared</span>';
+    tbody.append(`
+    <tr>
+    <td>${alarm.tagName}</td>
+    <td>${alarm.alarmDescription}</td>
+    <td>${formatDate(alarm.alarmOnTime)}</td>
+    <td>${alarm.alarmOffTime ? formatDate(alarm.alarmOffTime) : '-'}</td>
+    <td>${statusBadge}</td>
+    </tr>
+    `);
+    });
+    },
+    error: function (xhr, status, error) {
+    console.log("Alarm API Error:", error);
+    console.log(xhr.responseText);
+    }
+    });
+    }
+    function formatDate(dateString) {
+
+    let d = new Date(dateString);
+
+    return d.toLocaleString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+    });
+    }
+
+    //Trips Js
+    function openTripModal() {
+    $('#tripDate').val($('#selectedDate').val());
+    $('#tripDuration').val('day');
+    $('#tripDeviceName').text($('#selectedDeviceName').text());
+    $('#tripModal').modal('show');
+    $('#tripModal').one('shown.bs.modal', function () {
+    loadTrips();
+    });
+    }
+
+    function loadTrips() {
+    $.ajax({
+    url: '/Analytics',
+    type: 'GET',
+    data: {
+    handler: 'TripDetails',
+    duration: $('#tripDuration').val(),
+    fieldDeviceId: selectedFieldDeviceId,
+    selectedDate: $('#tripDate').val()
+    },
+    success: function (data) {
+
+    let tbody = $('#tripTableBody');
+
+    tbody.empty();
+
+    if (!Array.isArray(data) || data.length === 0)
+    {
+    tbody.append(`
+    <tr>
+    <td colspan="5" class="text-center">
+    No trips found
+    </td>
+    </tr>
+    `);
+
+    return;
+    }
+
+    data.forEach(function (trip) {
+
+    let statusBadge = trip.status === "Active"? '<span class="badge bg-danger">Active</span>': '<span class="badge bg-success">Reset</span>';
+    tbody.append(`
+    <tr>
+    <td>${trip.tagName}</td>
+    <td>${trip.tripDescription}</td>
+    <td>${formatDate(trip.tripTime)}</td>
+    <td>${trip.resetTime ? formatDate(trip.resetTime) : '-'}</td>
+    <td>${statusBadge}</td>
+    </tr>
+    `);
+    });
+    },
+    error: function (err) {
+    console.log(err.responseText);
+    }
+    });
+    }
+    
+    //graph js
+    function openTrendModal(){
+
+    let selectedDate = $('#selectedDate').val();
+    $('#selecttrend').val(selectedGraph);
+    $('#trendFrom').val(selectedDate + "T00:00");
+    $('#trendTo').val(selectedDate + "T23:59");
+
+    const graphTitles = {
+    current: "Current Trend",
+    voltage: "Voltage Trend",
+    power: "Power Trend"
+    };
+
+    $('#trendTitle').text($('#selectedDeviceName').text() + " - " + graphTitles[selectedGraph]);
+    $('#trendModal').modal('show');
+    $('#trendModal').one('shown.bs.modal', function () {
+    loadTrendModal();
+    });
+    }
+
+    function loadTrendModal() {
+
+    $.ajax({
+    url: '/Analytics',
+
+    type: 'GET',
+
+    data: {
+
+    handler: 'Trend',
+    fieldDeviceId: selectedFieldDeviceId,
+    graphType: selectedGraph,
+    from: $('#trendFrom').val(),
+    to: $('#trendTo').val()
+    },
+                success: function(data) {
+
+                let traces = [];
+
+                data.trendSeries.forEach(function(series, index) {
+
+                    traces.push({
+
+                        x: data.trendTime,
+
+                        y: series.values,
+
+                        type: 'scatter',
+
+                        mode: 'lines',
+
+                        name: series.name,
+
+                        line: {
+                            width: 3,
+                            color: colorPalette[index % colorPalette.length]
+                        },
+
+                        hovertemplate:
+                            '%{x}<br><b>%{y:.2f} ' +
+                            data.graphUnit +
+                            '</b><extra>' +
+                            series.name +
+                            '</extra>'
+
+                    });
+
+                });
+
+                Plotly.react(
+
+                    'trendModalChart',
+
+                    traces,
+
+                    {
+
+                        title: '',
+
+                        showlegend: true,
+
+                        legend: {
+                            orientation: 'h',
+                            y: 1.1
+                        },
+
+                        xaxis: {
+
+                            title: 'Time',
+
+                            type: 'date',
+
+                            tickformatstops: [
+
+                                {
+                                    dtickrange: [null, 3600000],
+                                    value: "%H:%M"
+                                },
+
+                                {
+                                    dtickrange: [3600000, 86400000],
+                                    value: "%d-%b %H:%M"
+                                },
+
+                                {
+                                    dtickrange: [86400000, null],
+                                    value: "%d-%b"
+                                }
+
+                            ],
+
+                            nticks: 24,
+
+                            showgrid: true,
+
+                            gridcolor: '#ECEFF5'
+
+                        },
+
+                        yaxis: {
+
+                            title: data.graphUnit,
+
+                            showgrid: true,
+
+                            gridcolor: '#ECEFF5'
+
+                        },
+
+                        margin: {
+
+                            l: 70,
+
+                            r: 20,
+
+                            t: 20,
+
+                            b: 60
+
+                        },
+
+                        hovermode: 'x unified',
+
+                        plot_bgcolor: '#FFFFFF',
+
+                        paper_bgcolor: '#FFFFFF'
+
+                    },
+
+                    {
+
+                        responsive: true,
+
+                        displaylogo: false
+
+                    }
+
+                );
+
+            }
+    });
+
+    }
+
+$(document).ready(function () {
+    window.history.replaceState({}, document.title, window.location.pathname);
+    let selectedDate = '@Model.SelectedDate?.ToString("yyyy-MM-dd")';
+
+    if (selectedDate) {
+    $('#selectedDate').val(selectedDate);
+    }
+    else {
+    $('#selectedDate').val(new Date().toISOString().split('T')[0]);
+    }
+
+    selectedFieldDeviceId = @Model.FieldDeviceId
+
+    let selectedDevice = $('.fielddevice[data-id="' + selectedFieldDeviceId + '"]');
+
+    if (selectedDevice.length) {
+
+    selectedDevice.addClass('active');
+
+    }
+    else {
+
+    let firstDevice = $('.fielddevice').first();
+
+    if (firstDevice.length) {
+
+    selectedFieldDeviceId = firstDevice.data('id');
+    firstDevice.addClass('active');
+    }
+    }
+
+    loadDashboard(selectedFieldDeviceId);
+
+    $('#sidebar').on('click', '.fielddevice', function (e) {
+
+    e.preventDefault();
+
+    $('.fielddevice').removeClass('active');
+
+    $(this).addClass('active');
+
+    selectedFieldDeviceId = $(this).data('id');
+
+    loadDashboard(selectedFieldDeviceId);
+
+    });
+
+    $('#selectedDate').on('change', function () {
+
+    if (selectedFieldDeviceId > 0) {
+
+    loadDashboard(selectedFieldDeviceId);
+
+    }
+
+    });
+
+    $(document).on('click', '.graph-mode', function () {
+
+    $('.graph-mode').removeClass('active');
+
+    $(this).addClass('active');
+
+    selectedGraph = $(this).data('mode');
+
+    loadDashboard(selectedFieldDeviceId);
+    });
+
+    $('.run-card').click(function () {
+
+    $('#runDate').val($('#selectedDate').val());
+    $('#runDeviceName').text($('#selectedDeviceName').text());
+    $('#runHoursModal').modal('show');
+    $('#runHoursModal').one('shown.bs.modal', function () {
+    loadRunHours();
+    });
+    });
+
+        let currentDay = new Date().toISOString().split('T')[0];
+
+        setInterval(function() {
+
+            let today = new Date().toISOString().split('T')[0];
+
+            if (today !== currentDay) {
+
+                currentDay = today;
+
+                $('#selectedDate').val(today);
+
+                loadDashboard(selectedFieldDeviceId);
+            }
+            else {
+
+                loadDashboard(selectedFieldDeviceId);
+            }
+
+        }, 60000);
+
+    $('#energyDuration').change(function () {
+
+    loadEnergyChart($(this).val());
+
+    });
+
+    $('#energyDate').change(function () {
+
+    loadEnergyChart($('#energyDuration').val());
+
+    });
+    $('#alarmDuration').change(function () {
+
+    loadAlarms();
+
+    });
+
+    $('#alarmDate').change(function () {
+
+    loadAlarms();
+
+    });
+
+    $('#tripDuration').change(function () {
+
+    loadTrips();
+
+    });
+
+    $('#tripDate').change(function () {
+
+    loadTrips();
+
+    });
+    $('#runDate').change(function () {
+
+    loadRunHours();
+
+    });
+    $('#btnTrendRefresh').click(function(){
+
+    loadTrendModal();
+
+    });
+    $('#currentChart').click(function(){
+
+    openTrendModal();
+
+    });   
+    $('#selecttrend').change(function () {
+
+    selectedGraph = $(this).val();
+
+    const graphTitles = {
+    current: "Current Trend",
+    power: "Power Trend",
+    voltage: "Voltage Trend"
+    };
+
+    $('#trendTitle').text(
+    $('#selectedDeviceName').text() + " - " + graphTitles[selectedGraph]
+    );
+
+    loadTrendModal();
+    });
+});
+</script>  
